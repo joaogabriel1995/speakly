@@ -1,16 +1,15 @@
-import { EvolutionWebhookBodyDTO } from '../../application/dto/evolutionWebhookDTO';
+import { webhookBodySchema } from '../../application/dto/evolutionWebhookDTO';
 import { IWebhookAdapter } from '../../application/interfaces/IWebhookAdapter';
 import { Message, SenderType } from '../../domain/entities/message';
 
 
-export class WhatsAppAdapter implements IWebhookAdapter<EvolutionWebhookBodyDTO> {
+export class WhatsAppAdapter implements IWebhookAdapter<webhookBodySchema> {
     constructor() { }
 
-    toMessage(data: EvolutionWebhookBodyDTO): Message {
+    toMessage(data: webhookBodySchema): Message {
         try {
-
             const message = new Message({
-                text: data.data.message.conversation,
+                text: data.data.message.conversation ?? "",
                 sender: data.sender,
                 senderType: SenderType.USER,
                 timestamp: new Date(data.date_time)
@@ -21,7 +20,7 @@ export class WhatsAppAdapter implements IWebhookAdapter<EvolutionWebhookBodyDTO>
         } catch (error) {
 
             return new Message({
-                text: data.data.message.conversation,
+                text: data.data.message.conversation ?? "",
                 sender: data.sender,
                 senderType: SenderType.USER,
                 timestamp: new Date(data.date_time)
