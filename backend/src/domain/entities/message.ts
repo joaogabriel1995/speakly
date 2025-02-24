@@ -10,6 +10,7 @@ interface MessageProps {
     senderType: SenderType;
     sender: string;
     timestamp?: Date;
+    chatId?: string;
 }
 
 export class Message {
@@ -18,6 +19,7 @@ export class Message {
     private readonly sender: string;
     private readonly senderType: SenderType;
     private readonly timestamp: Date;
+    private readonly chatId?: string;
 
     constructor(props: MessageProps, id?: string) {
         if (!props.text.trim()) {
@@ -56,5 +58,8 @@ export class Message {
 
     isFromAI(): boolean {
         return this.senderType === SenderType.AI;
+    }
+    getChatId(): string | undefined {
+        return this.chatId;
     }
 }
