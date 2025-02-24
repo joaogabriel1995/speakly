@@ -2,13 +2,24 @@ import { Router } from "express"
 import { HandleChatInputUseCase } from "../../application/useCases/handleChatInputUseCase"
 import { WhatsAppAdapter } from "../adapters/evolutionAppAdapter"
 import { EvolutionController } from "../../application/controllers/evolutionController"
+import { AppConversationOrchestratorUseCase } from "../../application/useCases/appConversationOrchestratorUseCase"
+import { HandleVoiceInputUseCase } from "../../application/useCases/handleVoiceInputUseCase"
+import { EvolutionMediaMessageService } from "../services/EvolutionMediaMessageService"
 
 const router = Router()
 
 router.post('/', async (request, response) => {
     const handleChatInputUseCase = new HandleChatInputUseCase()
+    const evolutionMediaMessageService = new EvolutionMediaMessageService()
+    const handleVoiceInputUseCase = new HandleVoiceInputUseCase(evolutionMediaMessageService)
     const whatsAppAdapter = new WhatsAppAdapter()
-    const evolutionController = new EvolutionController(handleChatInputUseCase, whatsAppAdapter)
+
+    const appConversationOrchestratorUseCase = new AppConversationOrchestratorUseCase(
+        handleChatInputUseCase,
+        handleVoiceInputUseCase,
+        whatsAppAdapter)
+
+    const evolutionController = new EvolutionController(appConversationOrchestratorUseCase)
     await evolutionController.handle({
         body: request.body,
         method: request.method,
