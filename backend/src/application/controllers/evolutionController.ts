@@ -1,9 +1,6 @@
-import { EvolutionWebhookBodyDTO, EvolutionWebhookDTO } from '../../application/dto/evolutionWebhookDTO';
-import { HandleChatInputUseCase } from '../../application/useCases/handleChatInputUseCase';
 import { Request, Response, Controller } from '../../application/interfaces/Controller';
-import { IWebhookAdapter } from '../interfaces/IWebhookAdapter';
-import { z } from 'zod';
-import { webhookBodySchema } from '../schemas/evoluctionWebhookSchema';
+import { webhookBodySchema, WebhookBodySchemaType } from '../schemas/evoluctionWebhookSchema';
+import { AppConversationOrchestratorUseCase } from '../useCases/appConversationOrchestratorUseCase';
 
 interface ChatResponse {
     id: string;
@@ -11,27 +8,25 @@ interface ChatResponse {
     timestamp: number;
 }
 
-export class EvolutionController implements Controller<EvolutionWebhookBodyDTO, ChatResponse> {
+export class EvolutionController implements Controller<WebhookBodySchemaType, ChatResponse> {
     constructor(
-        private readonly handleChatInputUseCase: HandleChatInputUseCase,
-        private readonly webhookAdapter: IWebhookAdapter<EvolutionWebhookBodyDTO>
-
+        private readonly appConversationOrchestratorUseCase: AppConversationOrchestratorUseCase,
     ) { }
 
-    async handle(request: Request<EvolutionWebhookBodyDTO>): Promise<Response<ChatResponse>> {
+    async handle(request: Request<WebhookBodySchemaType>): Promise<Response<ChatResponse>> {
         try {
             const body = webhookBodySchema.parse(request.body)
-            const message = this.webhookAdapter.toMessage(body)
-            await this.handleChatInputUseCase.execute(message);
+            await this.appConversationOrchestratorUseCase.execute(body);
             return {
                 statusCode: 201,
                 body: {
-                    id: message.id,
-                    content: message.getText(),
+                    id: "message.id",
+                    content: "message.getText()",
                     timestamp: new Date().getTime(),
                 },
             };
         } catch (error) {
+            console.log(error)
             return {
                 statusCode: 500,
                 body: null,
