@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { EvolutionWebhookBodyDTO } from "../dto/evolutionWebhookDTO";
 
 // Schema para DeviceListMetadata
 const deviceListMetadataSchema = z.object({
@@ -10,6 +9,7 @@ const deviceListMetadataSchema = z.object({
     recipientKeyHash: z.string(),
     recipientTimestamp: z.string(),
 });
+export type WebhookdeviceListMetadataSchemaType = z.infer<typeof deviceListMetadataSchema>;
 
 // Schema para MessageContextInfo
 const messageContextInfoSchema = z.object({
@@ -17,12 +17,16 @@ const messageContextInfoSchema = z.object({
     deviceListMetadataVersion: z.number(),
     messageSecret: z.string(),
 });
+export type WebhookMessageContextInfoSchemaType = z.infer<typeof messageContextInfoSchema>;
 
 // Schema para Message
 const messageSchema = z.object({
-    conversation: z.string(),
+    conversation: z.string().optional(),
+    base64: z.string().optional(),
+
     messageContextInfo: messageContextInfoSchema,
 });
+export type WebhookMessageSchemaType = z.infer<typeof messageSchema>;
 
 // Schema para Key
 const keySchema = z.object({
@@ -30,18 +34,21 @@ const keySchema = z.object({
     fromMe: z.boolean(),
     id: z.string(),
 });
+export type WebhookKeySchemaType = z.infer<typeof keySchema>;
 
+export const messageTypeEnum =  z.enum(['conversation', 'audioMessage'])
 // Schema para WebhookData
 const webhookDataSchema = z.object({
     key: keySchema,
     pushName: z.string(),
     status: z.string(),
     message: messageSchema,
-    messageType: z.string(),
+    messageType: messageTypeEnum,
     messageTimestamp: z.number(),
     instanceId: z.string(),
     source: z.string(),
 })
+export type WebhookDataSchemaType = z.infer<typeof webhookDataSchema>;
 
 // Schema principal para EvolutionWebhookBodyDTO
 export const webhookBodySchema = z.object({
@@ -57,3 +64,8 @@ export const webhookBodySchema = z.object({
 
 // Tipo inferido para garantir compatibilidade (opcional)
 export type WebhookBodySchemaType = z.infer<typeof webhookBodySchema>;
+
+// export enum  MessageTypes {
+//     conversation =  "conversation",
+//     audioMessage = "audioMessage"
+// }
