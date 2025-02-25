@@ -1,13 +1,13 @@
-import { z } from "zod";
+import { optional, z } from "zod";
 
 // Schema para DeviceListMetadata
 const deviceListMetadataSchema = z.object({
-    senderKeyHash: z.string(),
-    senderTimestamp: z.string(),
-    senderAccountType: z.string(),
-    receiverAccountType: z.string(),
-    recipientKeyHash: z.string(),
-    recipientTimestamp: z.string(),
+    senderKeyHash: z.string().optional(),
+    senderTimestamp: z.string().optional(),
+    senderAccountType: z.string().optional(),
+    receiverAccountType: z.string().optional(),
+    recipientKeyHash: z.string().optional(),
+    recipientTimestamp: z.string().optional(),
 });
 export type WebhookdeviceListMetadataSchemaType = z.infer<typeof deviceListMetadataSchema>;
 
@@ -24,7 +24,7 @@ const messageSchema = z.object({
     conversation: z.string().optional(),
     base64: z.string().optional(),
 
-    messageContextInfo: messageContextInfoSchema,
+    messageContextInfo: messageContextInfoSchema.optional(),
 });
 export type WebhookMessageSchemaType = z.infer<typeof messageSchema>;
 
@@ -62,10 +62,5 @@ export const webhookBodySchema = z.object({
     apikey: z.string(),
 });
 
-// Tipo inferido para garantir compatibilidade (opcional)
 export type WebhookBodySchemaType = z.infer<typeof webhookBodySchema>;
 
-// export enum  MessageTypes {
-//     conversation =  "conversation",
-//     audioMessage = "audioMessage"
-// }
