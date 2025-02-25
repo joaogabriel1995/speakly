@@ -1,5 +1,5 @@
 import { webhookBodySchema } from '../../application/dto/evolutionWebhookDTO';
-import { IWebhookAdapter } from '../../application/interfaces/IWebhookAdapter';
+import { IWebhookAdapter } from '../../application/interfaces/adapters/IWebhookAdapter';
 import { Message, SenderType } from '../../domain/entities/message';
 
 

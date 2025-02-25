@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from "axios";
-import { IMediaMessageService } from "../../domain/services/MediaMessageService";
+import { IMediaMessageService } from "../../domain/services/IMediaMessageService";
 import { MediaMessageResponseDTO, mediaMessageResponseSchema } from "../../application/schemas/mediaMessageSchemas";
 
 export class EvolutionMediaMessageService implements IMediaMessageService {

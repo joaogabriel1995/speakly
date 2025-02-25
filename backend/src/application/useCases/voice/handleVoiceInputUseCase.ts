@@ -1,7 +1,7 @@
-import { IMediaMessageService } from "../../domain/services/MediaMessageService";
+import { IMediaMessageService } from "../../domain/services/IMediaMessageService";
 import { IMessageBroker } from "../../infrastructure/messaging/IMessageBroker";
 import { RabbitMQBrokerAdvanced } from "../../infrastructure/messaging/RabbitMQBroker";
-import { WebhookBodySchemaType } from "../schemas/evoluctionWebhookSchema";
+import { WebhookBodySchemaType } from "../schemas/evolutionWebhookSchema";
 
 
 

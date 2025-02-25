@@ -1,12 +1,12 @@
 /** Representa uma requisição HTTP recebida */
-export interface Request<T = unknown> {
+export interface IRequest<T = unknown> {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE' | string;
     headers?: Record<string, any>;
     body: T;
   }
 
   /** Representa uma resposta HTTP retornada */
-  export interface Response<T = unknown> {
+  export interface IResponse<T = unknown> {
     statusCode: number;
     body: T | null;
     error?: {
@@ -16,6 +16,6 @@ export interface Request<T = unknown> {
   }
 
   /** Define o contrato de um controlador */
-  export interface Controller<TRequest = unknown, TResponse = unknown> {
-    handle(request: Request<TRequest>): Promise<Response<TResponse>>;
+  export interface IController<TRequest = unknown, TResponse = unknown> {
+    handle(request: IRequest<TRequest>): Promise<IResponse<TResponse>>;
   }

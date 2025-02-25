@@ -1,6 +1,6 @@
-import { Request, Response, Controller } from '../../application/interfaces/Controller';
-import { webhookBodySchema, WebhookBodySchemaType } from '../schemas/evoluctionWebhookSchema';
-import { AppConversationOrchestratorUseCase } from '../useCases/appConversationOrchestratorUseCase';
+import { IRequest, IResponse, IController } from '../interfaces/adapters/IController';
+import { webhookBodySchema, WebhookBodySchemaType } from '../schemas/evolutionWebhookSchema';
+import { AppConversationOrchestratorUseCase } from '../useCases/chat/appConversationOrchestratorUseCase';
 
 interface ChatResponse {
     id: string;
@@ -8,12 +8,12 @@ interface ChatResponse {
     timestamp: number;
 }
 
-export class EvolutionController implements Controller<WebhookBodySchemaType, ChatResponse> {
+export class EvolutionController implements IController<WebhookBodySchemaType, ChatResponse> {
     constructor(
         private readonly appConversationOrchestratorUseCase: AppConversationOrchestratorUseCase,
     ) { }
 
-    async handle(request: Request<WebhookBodySchemaType>): Promise<Response<ChatResponse>> {
+    async handle(request: IRequest<WebhookBodySchemaType>): Promise<IResponse<ChatResponse>> {
         try {
           console.log('request.body', request.body)
             const body = webhookBodySchema.parse(request.body)
