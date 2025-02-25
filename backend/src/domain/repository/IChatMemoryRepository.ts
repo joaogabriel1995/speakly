@@ -1,4 +1,4 @@
-import { Message } from "../entities/message";
+import { Message } from "../entities/Message";
 
 export interface IChatRepository {
     saveMessage(message: Message): Promise<void>;

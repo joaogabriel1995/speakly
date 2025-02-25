@@ -1,9 +1,6 @@
-import { IMediaMessageService } from "../../domain/services/IMediaMessageService";
-import { IMessageBroker } from "../../infrastructure/messaging/IMessageBroker";
-import { RabbitMQBrokerAdvanced } from "../../infrastructure/messaging/RabbitMQBroker";
-import { WebhookBodySchemaType } from "../schemas/evolutionWebhookSchema";
-
-
+import { IMediaMessageService } from "../../../domain/services/IMediaMessageService";
+import { IMessageBroker } from "../../../infrastructure/messaging/IMessageBroker";
+import { WebhookBodySchemaType } from "../../schemas/EvolutionWebhookSchema";
 
 
 export class HandleVoiceInputUseCase {

@@ -1,7 +1,7 @@
 import { IWebhookAdapter } from "../../interfaces/adapters/IWebhookAdapter";
-import { messageTypeEnum, WebhookBodySchemaType } from "../../schemas/evolutionWebhookSchema";
-import { HandleVoiceInputUseCase } from "../voice/handleVoiceInputUseCase";
-import { HandleChatInputUseCase } from "./handleChatInputUseCase";
+import { messageTypeEnum, WebhookBodySchemaType } from "../../schemas/EvolutionWebhookSchema";
+import { HandleVoiceInputUseCase } from "../voice/HandleVoiceInputUseCase";
+import { HandleChatInputUseCase } from "./HandleChatInputUseCase";
 
 export class AppConversationOrchestratorUseCase {
   constructor(

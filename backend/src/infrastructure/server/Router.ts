@@ -1,11 +1,11 @@
 import { Router } from "express"
-import { HandleChatInputUseCase } from "../../application/useCases/handleChatInputUseCase"
-import { WhatsAppAdapter } from "../adapters/evolutionAppAdapter"
-import { EvolutionController } from "../../application/controllers/evolutionController"
-import { AppConversationOrchestratorUseCase } from "../../application/useCases/chat/appConversationOrchestratorUseCase"
-import { HandleVoiceInputUseCase } from "../../application/useCases/handleVoiceInputUseCase"
+import { WhatsAppAdapter } from "../adapters/EvolutionAppAdapter"
+import { EvolutionController } from "../../application/controllers/EvolutionController"
+import { AppConversationOrchestratorUseCase } from "../../application/useCases/chat/AppConversationOrchestratorUseCase"
 import { EvolutionMediaMessageService } from "../services/EvolutionMediaMessageService"
 import { RabbitMQBrokerAdvanced } from "../messaging/RabbitMQBroker"
+import { HandleVoiceInputUseCase } from "../../application/useCases/voice/HandleVoiceInputUseCase"
+import { HandleChatInputUseCase } from "../../application/useCases/chat/HandleChatInputUseCase"
 
 const router = Router()
 

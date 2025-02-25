@@ -1,12 +1,12 @@
-import { webhookBodySchema } from '../../application/dto/evolutionWebhookDTO';
 import { IWebhookAdapter } from '../../application/interfaces/adapters/IWebhookAdapter';
-import { Message, SenderType } from '../../domain/entities/message';
+import { WebhookBodySchemaType } from '../../application/schemas/EvolutionWebhookSchema';
+import { Message, SenderType } from '../../domain/entities/Message';
 
 
-export class WhatsAppAdapter implements IWebhookAdapter<webhookBodySchema> {
+export class WhatsAppAdapter implements IWebhookAdapter<WebhookBodySchemaType> {
     constructor() { }
 
-    toMessage(data: webhookBodySchema): Message {
+    toMessage(data: WebhookBodySchemaType): Message {
         try {
             const message = new Message({
                 text: data.data.message.conversation ?? "",
