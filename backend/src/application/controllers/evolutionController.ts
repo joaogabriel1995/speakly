@@ -15,6 +15,7 @@ export class EvolutionController implements Controller<WebhookBodySchemaType, Ch
 
     async handle(request: Request<WebhookBodySchemaType>): Promise<Response<ChatResponse>> {
         try {
+          console.log('request.body', request.body)
             const body = webhookBodySchema.parse(request.body)
             await this.appConversationOrchestratorUseCase.execute(body);
             return {
