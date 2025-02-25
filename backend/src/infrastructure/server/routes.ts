@@ -5,13 +5,16 @@ import { EvolutionController } from "../../application/controllers/evolutionCont
 import { AppConversationOrchestratorUseCase } from "../../application/useCases/appConversationOrchestratorUseCase"
 import { HandleVoiceInputUseCase } from "../../application/useCases/handleVoiceInputUseCase"
 import { EvolutionMediaMessageService } from "../services/EvolutionMediaMessageService"
+import { RabbitMQBrokerAdvanced } from "../messaging/RabbitMQBroker"
 
 const router = Router()
 
 router.post('/', async (request, response) => {
     const handleChatInputUseCase = new HandleChatInputUseCase()
     const evolutionMediaMessageService = new EvolutionMediaMessageService()
-    const handleVoiceInputUseCase = new HandleVoiceInputUseCase(evolutionMediaMessageService)
+    const rabbitMQBrokerAdvanced = new RabbitMQBrokerAdvanced("amqp://localhost:5672")
+    await rabbitMQBrokerAdvanced.init()
+    const handleVoiceInputUseCase = new HandleVoiceInputUseCase(evolutionMediaMessageService, rabbitMQBrokerAdvanced)
     const whatsAppAdapter = new WhatsAppAdapter()
 
     const appConversationOrchestratorUseCase = new AppConversationOrchestratorUseCase(
