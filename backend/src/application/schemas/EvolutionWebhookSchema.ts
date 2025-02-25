@@ -1,7 +1,7 @@
 import { optional, z } from "zod";
 
 // Schema para DeviceListMetadata
-const deviceListMetadataSchema = z.object({
+const DeviceListMetadataSchema = z.object({
     senderKeyHash: z.string().optional(),
     senderTimestamp: z.string().optional(),
     senderAccountType: z.string().optional(),
@@ -9,52 +9,52 @@ const deviceListMetadataSchema = z.object({
     recipientKeyHash: z.string().optional(),
     recipientTimestamp: z.string().optional(),
 });
-export type WebhookdeviceListMetadataSchemaType = z.infer<typeof deviceListMetadataSchema>;
+export type WebhookdeviceListMetadataSchemaType = z.infer<typeof DeviceListMetadataSchema>;
 
 // Schema para MessageContextInfo
-const messageContextInfoSchema = z.object({
-    deviceListMetadata: deviceListMetadataSchema,
+const MessageContextInfoSchema = z.object({
+    deviceListMetadata: DeviceListMetadataSchema,
     deviceListMetadataVersion: z.number(),
     messageSecret: z.string(),
 });
-export type WebhookMessageContextInfoSchemaType = z.infer<typeof messageContextInfoSchema>;
+export type WebhookMessageContextInfoSchemaType = z.infer<typeof MessageContextInfoSchema>;
 
 // Schema para Message
-const messageSchema = z.object({
+const MessageSchema = z.object({
     conversation: z.string().optional(),
     base64: z.string().optional(),
 
-    messageContextInfo: messageContextInfoSchema.optional(),
+    messageContextInfo: MessageContextInfoSchema.optional(),
 });
-export type WebhookMessageSchemaType = z.infer<typeof messageSchema>;
+export type WebhookMessageSchemaType = z.infer<typeof MessageSchema>;
 
 // Schema para Key
-const keySchema = z.object({
+const KeySchema = z.object({
     remoteJid: z.string(),
     fromMe: z.boolean(),
     id: z.string(),
 });
-export type WebhookKeySchemaType = z.infer<typeof keySchema>;
+export type WebhookKeySchemaType = z.infer<typeof KeySchema>;
 
-export const messageTypeEnum =  z.enum(['conversation', 'audioMessage'])
+export const MessageTypeEnum =  z.enum(['conversation', 'audioMessage'])
 // Schema para WebhookData
-const webhookDataSchema = z.object({
-    key: keySchema,
+const WebhookDataSchema = z.object({
+    key: KeySchema,
     pushName: z.string(),
     status: z.string(),
-    message: messageSchema,
-    messageType: messageTypeEnum,
+    message: MessageSchema,
+    messageType: MessageTypeEnum,
     messageTimestamp: z.number(),
     instanceId: z.string(),
     source: z.string(),
 })
-export type WebhookDataSchemaType = z.infer<typeof webhookDataSchema>;
+export type WebhookDataSchemaType = z.infer<typeof WebhookDataSchema>;
 
 // Schema principal para EvolutionWebhookBodyDTO
-export const webhookBodySchema = z.object({
+export const WebhookBodySchema = z.object({
     event: z.string(),
     instance: z.string(),
-    data: webhookDataSchema,
+    data: WebhookDataSchema,
     destination: z.string(),
     date_time: z.string().datetime(), // Validação estrita de ISO 8601
     sender: z.string(),
@@ -62,5 +62,5 @@ export const webhookBodySchema = z.object({
     apikey: z.string(),
 });
 
-export type WebhookBodySchemaType = z.infer<typeof webhookBodySchema>;
+export type WebhookBodySchemaType = z.infer<typeof WebhookBodySchema>;
 

@@ -1,5 +1,5 @@
 import { IWebhookAdapter } from "../../interfaces/adapters/IWebhookAdapter";
-import { messageTypeEnum, WebhookBodySchemaType } from "../../schemas/EvolutionWebhookSchema";
+import { MessageTypeEnum, WebhookBodySchemaType } from "../../schemas/EvolutionWebhookSchema";
 import { HandleVoiceInputUseCase } from "../voice/HandleVoiceInputUseCase";
 import { HandleChatInputUseCase } from "./HandleChatInputUseCase";
 
@@ -12,11 +12,11 @@ export class AppConversationOrchestratorUseCase {
   async execute(webhookPayloadBody: WebhookBodySchemaType) {
     console.log("ASOIDJAIOSDJ")
     const { messageType } = webhookPayloadBody.data
-    if (messageType === messageTypeEnum.enum.conversation) {
+    if (messageType === MessageTypeEnum.enum.conversation) {
       const message = this.webhookAdapter.toMessage(webhookPayloadBody)
       await this.handleChatInputUseCase.execute(message);
     }
-    if (messageType === messageTypeEnum.enum.audioMessage) {
+    if (messageType === MessageTypeEnum.enum.audioMessage) {
       this.handleVoiceInputUseCase.execute(webhookPayloadBody)
     }
   }
