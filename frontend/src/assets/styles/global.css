@@ -1,0 +1,10 @@
+html, body, #root {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  outline: none !important;
+  background-color: #121212 !important;
+  width: 100% !important;
+  height: 100% !important;
+  overflow: hidden; /* Optional: Prevents scrollbars if not needed */
+}
