@@ -1,7 +1,14 @@
-// src/core/ports/IMessageBroker.ts
+import { Message, Options } from "amqplib";
+
 export interface IMessageBroker {
-  publish(queue: string, message: object): Promise<void>;
-  subscribe(queue: string, onMessage: (message: object) => Promise<void>): Promise<void>;
+  publish(queue: string, message: object, options?: Options.Publish): Promise<void>;
+  subscribe(
+    queue: string,
+    onMessage: (msg: Message, ack: () => void, nack: (requeue?: boolean) => void) => Promise<void>,
+    onError: (error: Error, msg: Message, ack: () => void, nack: (requeue?: boolean) => void) => Promise<void>
+  ): Promise<void>
+  ack(msg: Message): Promise<void>
+  nack(msg: Message, requeue: boolean): Promise<void>
 
   // // Operações para exchanges
   // publishToExchange(
