@@ -19,18 +19,20 @@ export const RabbitSchema = z.object({
   RABBIT_PORT: z.coerce.number().default(5672),
   RABBIT_USER: z.string(),
   RABBIT_PASSWORD: z.string(),
+  RABBIT_URI: z.string(),
 });
 
 export type RabbitConfig = z.infer<typeof RabbitSchema>;
 
 
 export const EnvironmentSchema = z.object({
-    SERVER_PORT: z.coerce.number().default(3000),
-    RABBIT_HOST: RabbitSchema.shape.RABBIT_HOST,
-    RABBIT_PORT: RabbitSchema.shape.RABBIT_PORT,
-    RABBIT_USER: RabbitSchema.shape.RABBIT_USER,
-    RABBIT_PASSWORD: RabbitSchema.shape.RABBIT_PASSWORD
+  SERVER_PORT: z.coerce.number().default(3000),
+  RABBIT_HOST: RabbitSchema.shape.RABBIT_HOST,
+  RABBIT_PORT: RabbitSchema.shape.RABBIT_PORT,
+  RABBIT_USER: RabbitSchema.shape.RABBIT_USER,
+  RABBIT_PASSWORD: RabbitSchema.shape.RABBIT_PASSWORD,
+  RABBIT_URI: RabbitSchema.shape.RABBIT_URI
 
-  })
+})
 
 export type EnvironmentConfig = z.infer<typeof EnvironmentSchema>
