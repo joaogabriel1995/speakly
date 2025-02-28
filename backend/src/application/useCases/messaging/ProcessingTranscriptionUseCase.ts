@@ -6,7 +6,11 @@ import { Message } from "amqplib";
 
 // Schema de exemplo para mensagens da fila
 const queueMessageSchema = z.object({
-  transcriptionId: z.string(),
+  url: z.string(),
+  language: z.string().nullable(),
+  status: z.string(),
+  userId: z.string(),
+  trasncriberType: z.string(),
   text: z.string(),
 });
 type QueueMessage = z.infer<typeof queueMessageSchema>;
@@ -18,11 +22,17 @@ export class ProcessQueueMessagesUseCase {
 
 
   private async onMessage(message: Message) {
-    const data = JSON.parse(message.content.toString())
-    const transcriptionData = queueMessageSchema.parse(data)
-    console.log(transcriptionData)
-    this.messageBroker.ack(message)
+    const data = JSON.parse(message.content.toString("utf-8"));
+    try {
+      const transcriptionData = queueMessageSchema.parse(data);
+      console.log("Mensagem validada:", transcriptionData);
+      this.messageBroker.ack(message);
+    } catch (error) {
+      console.error("Erro de validação:", error);
+      this.onError(error as Error, message);
+    }
   }
+
   private async onError(error: Error, message: Message) {
     const maxAttempts = 5;
     let attempts = 0;
