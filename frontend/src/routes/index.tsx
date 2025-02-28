@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { Transcriber } from "../pages/transcriber/transcriber"
+import { Transcriber } from "../pages/transcriber/Transcription"
 
 
 
