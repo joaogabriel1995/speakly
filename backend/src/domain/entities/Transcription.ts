@@ -14,9 +14,9 @@ interface TranscriptionProps {
 
 export class Transcription {
   private readonly id: string;
-  private  status: string;
-  private  text: string | null
-  private  language: string | null
+  private status: string;
+  private text: string | null
+  private language: string | null
   private userId: string | null
   private url: string;
   private trasncriberType: "youtube" | "audio"
