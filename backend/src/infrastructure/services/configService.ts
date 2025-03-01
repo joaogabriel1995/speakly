@@ -1,4 +1,4 @@
-import { EnvironmentConfig, EnvironmentSchema } from "../../application/schemas/environmentSchema";
+import { EnvironmentConfig, EnvironmentSchema } from "../../application/schemas/EnvironmentSchema";
 import { EnvLoader, IEnvLoader } from "../config/EnvLoader";
 
 
