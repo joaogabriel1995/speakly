@@ -5,7 +5,7 @@ import { AppThemeProvider } from "./context/ThemeContext"
 import './assets/styles/global.css'; // Import global CSS
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./routes";
-
+import { WebSocketProvider } from './context/WebSocketContext';
 
 export const App = () => {
 
@@ -15,9 +15,11 @@ export const App = () => {
       <AppThemeProvider>
         <DrawerProvider>
           <BrowserRouter>
-            <LayoutBase >
-              <AppRoutes></AppRoutes>
-            </LayoutBase>
+            <WebSocketProvider>
+              <LayoutBase >
+                <AppRoutes />
+              </LayoutBase>
+            </WebSocketProvider>
           </BrowserRouter>
         </DrawerProvider>
 
