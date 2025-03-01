@@ -5,8 +5,8 @@ export const DarkTheme = createTheme({
     values: {
       xs: 0,
       sm: 600,
-      md: 1000,
-      lg: 1200,
+      md: 960, // Ajustado para um valor mais padrão
+      lg: 1280,
       xl: 1920,
     },
   },
@@ -18,68 +18,75 @@ export const DarkTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: 'none',
+          borderRadius: 8, // Bordas mais suaves
+          transition: 'all 0.3s ease', // Suavidade nas animações
         },
         containedPrimary: {
-          backgroundColor: '#1565C0', // Deep Blue (JStack primary)
+          backgroundColor: '#1E88E5', // Azul vibrante inspirado no Grok
           color: '#FFFFFF',
           '&:hover': {
-            backgroundColor: '#0D47A1', // Darker Blue for hover
+            backgroundColor: '#1565C0', // Tom mais escuro para hover
+            boxShadow: '0px 4px 12px rgba(30, 136, 229, 0.3)', // Sombra sutil
           },
         },
-        containedError: {
-          backgroundColor: '#E57373', // Keeping error color consistent
+        containedSecondary: {
+          backgroundColor: '#8E24AA', // Roxo elegante como secundário
           color: '#FFFFFF',
           '&:hover': {
-            backgroundColor: '#D32F2F',
+            backgroundColor: '#6A1B9A',
+          },
+        },
+        outlined: {
+          borderColor: '#4FC3F7', // Ciano claro para outlines
+          color: '#4FC3F7',
+          '&:hover': {
+            borderColor: '#81D4FA',
+            backgroundColor: 'rgba(79, 195, 247, 0.1)',
           },
         },
         sizeSmall: {
           padding: '6px 16px',
+          fontSize: '0.875rem',
         },
         sizeMedium: {
           padding: '8px 20px',
+          fontSize: '1rem',
         },
         sizeLarge: {
-          padding: '11px 24px',
-        },
-        textSizeSmall: {
-          padding: '7px 12px',
-        },
-        textSizeMedium: {
-          padding: '9px 16px',
-        },
-        textSizeLarge: {
-          padding: '12px 16px',
+          padding: '10px 24px',
+          fontSize: '1.125rem',
         },
       },
     },
     MuiButtonBase: {
       defaultProps: {
-        disableRipple: true,
+        disableRipple: false, // Ripple sutil melhora a interação
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#1A1F2A', // Fundo escuro com tom azulado
+          borderRadius: 12,
+          boxShadow: '0px 6px 20px rgba(0, 0, 0, 0.4)', // Sombra mais pronunciada
+        },
       },
     },
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '32px 24px',
+          padding: '24px',
           '&:last-child': {
-            paddingBottom: '32px',
+            paddingBottom: '24px',
           },
         },
       },
     },
     MuiCardHeader: {
-      defaultProps: {
-        titleTypographyProps: {
-          variant: 'h6',
-        },
-        subheaderTypographyProps: {
-          variant: 'body2',
-        },
-      },
       styleOverrides: {
         root: {
-          padding: '32px 24px',
+          padding: '24px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
         },
       },
     },
@@ -91,260 +98,207 @@ export const DarkTheme = createTheme({
           padding: 0,
         },
         html: {
-          position: 'relative',
           MozOsxFontSmoothing: 'grayscale',
           WebkitFontSmoothing: 'antialiased',
+          scrollBehavior: 'smooth', // Rolagem suave
         },
         'html, body, #__next, #root': {
           minHeight: '100%',
           width: '100%',
-          backgroundColor: '#121212', // Dark background from JStack
+          backgroundColor: '#0F1419', // Fundo escuro profundo (Grok-like)
         },
         a: {
           textDecoration: 'none',
-        },
-        '*.permission-disabled': {
-          pointerEvents: 'none',
-          opacity: 0.5,
-          cursor: 'not-allowed',
+          color: '#4FC3F7', // Links em ciano claro
+          '&:hover': {
+            textDecoration: 'underline',
+          },
         },
         hr: {
-          margin: '30px 0 10px',
-          opacity: 0.2,
+          borderColor: 'rgba(255, 255, 255, 0.15)',
+          margin: '20px 0',
         },
-        '.MuiCheckbox-indeterminate': {
-          color: '#aaa !important',
-        },
-        MuiOutlinedInput: {
-          styleOverrides: {
-            notchedOutline: {
-              borderColor: '#444',
-            },
+      },
+    },
+    MuiTableHead: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#1A1F2A',
+          '& .MuiTableCell-root': {
+            color: '#B0BEC5',
+            borderBottom: 'none',
+            fontSize: '0.875rem',
+            fontWeight: 600,
+            textTransform: 'uppercase',
+            letterSpacing: '0.5px',
           },
         },
-        '.MuiDialog-container .MuiFormControl-root': {
-          display: 'flex',
-        },
-        '.css-1ugrzdr-MuiContainer-root': {
-          paddingLeft: '1px',
-        },
-        '.timepicker-input': {
-          width: '90px',
-          fontSize: '15px',
-        },
-        MuiTableHead: {
-          styleOverrides: {
-            root: {
-              backgroundColor: '#1F2937',
-              '.MuiTableCell-root': {
-                color: '#BDBDBD',
-              },
-              borderBottom: 'none',
-              '& .MuiTableCell-root': {
-                borderBottom: 'none',
-                fontSize: '12px',
-                fontWeight: 600,
-                lineHeight: 1,
-                letterSpacing: 0.5,
-                textTransform: 'uppercase',
-              },
-              '& .MuiTableCell-paddingCheckbox': {
-                paddingTop: 4,
-                paddingBottom: 4,
-              },
-              '& .MuiDataGrid-columnHeaders': {
-                backgroundColor: '#2C3E50',
-                borderColor: '#2C3E50',
-                minWidth: '1000px !important',
-                maxWidth: '1000px !important',
-                width: '1000px',
-              },
-            },
-          },
-        },
-
       },
     },
   },
   palette: {
     mode: 'dark',
     grey: {
-      100: '#BDBDBD',
-      200: '#9E9E9E',
-      300: '#757575',
-      400: '#616161',
-      500: '#424242',
-      600: '#303030',
-      700: '#212121',
-      800: '#121212',
-      900: '#0A0A0A',
+      100: '#CFD8DC',
+      200: '#B0BEC5',
+      300: '#90A4AE',
+      400: '#78909C',
+      500: '#607D8B',
+      600: '#546E7A',
+      700: '#455A64',
+      800: '#37474F',
+      900: '#263238',
     },
     action: {
       active: '#FFFFFF',
-      focus: 'rgba(255, 255, 255, 0.12)',
-      hover: 'rgba(255, 255, 255, 0.04)',
-      selected: 'rgba(255, 255, 255, 0.08)',
+      hover: 'rgba(255, 255, 255, 0.08)',
+      selected: 'rgba(30, 136, 229, 0.2)', // Toque de azul no selecionado
+      disabled: 'rgba(255, 255, 255, 0.3)',
       disabledBackground: 'rgba(255, 255, 255, 0.12)',
-      disabled: 'rgba(255, 255, 255, 0.26)',
     },
     background: {
-      default: '#121212', // Dark background from JStack
-      paper: '#2C2C2C', // Light Gray for cards/surfaces (JStack-inspired)
+      default: '#0F1419', // Fundo escuro elegante
+      paper: '#1A1F2A', // Superfícies com tom azulado
     },
-    divider: '#444',
+    divider: 'rgba(255, 255, 255, 0.12)',
     primary: {
-      main: '#1565C0', // Deep Blue (JStack primary)
-      light: '#4FC3F7', // Lighter shade for contrast
-      dark: '#0D47A1', // Darker shade for hover states
+      main: '#1E88E5', // Azul vibrante (Grok-inspired)
+      light: '#4FC3F7', // Ciano claro
+      dark: '#1565C0', // Azul escuro
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#FF5722', // Bright Orange (JStack accent)
-      light: '#FF8A65', // Lighter shade for contrast
-      dark: '#E64A19', // Darker shade for hover states
+      main: '#8E24AA', // Roxo sofisticado
+      light: '#BA68C8',
+      dark: '#6A1B9A',
       contrastText: '#FFFFFF',
     },
     success: {
-      main: '#66BB6A',
-      light: '#A5D6A7',
-      dark: '#388E3C',
+      main: '#26A69A',
+      light: '#4DB6AC',
+      dark: '#00796B',
       contrastText: '#FFFFFF',
     },
     info: {
-      main: '#29B6F6',
+      main: '#4FC3F7',
       light: '#81D4FA',
       dark: '#0288D1',
       contrastText: '#FFFFFF',
     },
     warning: {
       main: '#FFA726',
-      light: '#FFCC80',
+      light: '#FFB300',
       dark: '#F57C00',
       contrastText: '#FFFFFF',
     },
     error: {
       main: '#EF5350',
-      light: '#FFCDD2',
+      light: '#E57373',
       dark: '#D32F2F',
       contrastText: '#FFFFFF',
     },
     text: {
-      primary: '#E0E0E0', // Light text for readability on dark background
-      secondary: '#BDBDBD', // Secondary text
-      disabled: 'rgba(255, 255, 255, 0.48)',
+      primary: '#E1E8ED', // Texto claro e legível
+      secondary: '#B0BEC5', // Texto secundário sutil
+      disabled: 'rgba(255, 255, 255, 0.5)',
     },
   },
   shape: {
-    borderRadius: 4,
+    borderRadius: 8, // Bordas mais arredondadas para suavidade
   },
   shadows: [
-    'none',
-    `0px 1px 1px rgba(0, 0, 0, 0.2),
-    0px 1px 2px rgba(0, 0, 0, 0.24)`,
-    '0px 1px 2px rgba(0, 0, 0, 0.28)',
-    '0px 1px 4px rgba(0, 0, 0, 0.28)',
-    '0px 1px 5px rgba(0, 0, 0, 0.28)',
-    '0px 1px 6px rgba(0, 0, 0, 0.28)',
-    '0px 2px 6px rgba(0, 0, 0, 0.28)',
-    '0px 3px 6px rgba(0, 0, 0, 0.28)',
-    '0px 2px 4px rgba(0, 0, 0, 0.28), 0px 4px 6px rgba(0, 0, 0, 0.28)',
-    '0px 5px 12px rgba(0, 0, 0, 0.28)',
-    '0px 5px 14px rgba(0, 0, 0, 0.28)',
-    '0px 5px 15px rgba(0, 0, 0, 0.28)',
-    '0px 6px 15px rgba(0, 0, 0, 0.28)',
-    '0px 7px 15px rgba(0, 0, 0, 0.28)',
-    '0px 8px 15px rgba(0, 0, 0, 0.28)',
-    '0px 9px 15px rgba(0, 0, 0, 0.28)',
-    '0px 10px 15px rgba(0, 0, 0, 0.28)',
-    '0px 12px 22px -8px rgba(0, 0, 0, 0.45)',
-    '0px 13px 22px -8px rgba(0, 0, 0, 0.45)',
-    '0px 14px 24px -8px rgba(0, 0, 0, 0.45)',
-    '0px 10px 10px rgba(0, 0, 0, 0.24), 0px 20px 25px rgba(0, 0, 0, 0.28)',
-    '0px 25px 50px rgba(0, 0, 0, 0.45)',
-    '0px 25px 50px rgba(0, 0, 0, 0.45)',
-    '0px 25px 50px rgba(0, 0, 0, 0.45)',
-    '0px 25px 50px rgba(0, 0, 0, 0.45)',
+    'none', // 0
+    '0px 2px 4px rgba(0, 0, 0, 0.3)', // 1
+    '0px 3px 6px rgba(0, 0, 0, 0.35)', // 2
+    '0px 4px 8px rgba(0, 0, 0, 0.4)', // 3
+    '0px 6px 10px rgba(0, 0, 0, 0.45)', // 4
+    '0px 8px 12px rgba(0, 0, 0, 0.5)', // 5
+    '0px 10px 14px rgba(0, 0, 0, 0.55)', // 6
+    '0px 12px 16px rgba(0, 0, 0, 0.55)', // 7
+    '0px 14px 18px rgba(0, 0, 0, 0.55)', // 8
+    '0px 16px 20px rgba(0, 0, 0, 0.55)', // 9
+    '0px 18px 22px rgba(0, 0, 0, 0.55)', // 10
+    '0px 20px 24px rgba(0, 0, 0, 0.55)', // 11
+    '0px 22px 26px rgba(0, 0, 0, 0.55)', // 12
+    '0px 24px 28px rgba(0, 0, 0, 0.55)', // 13
+    '0px 26px 30px rgba(0, 0, 0, 0.55)', // 14
+    '0px 28px 32px rgba(0, 0, 0, 0.55)', // 15
+    '0px 30px 34px rgba(0, 0, 0, 0.55)', // 16
+    '0px 32px 36px rgba(0, 0, 0, 0.55)', // 17
+    '0px 34px 38px rgba(0, 0, 0, 0.55)', // 18
+    '0px 36px 40px rgba(0, 0, 0, 0.55)', // 19
+    '0px 38px 42px rgba(0, 0, 0, 0.55)', // 20
+    '0px 40px 44px rgba(0, 0, 0, 0.55)', // 21
+    '0px 42px 46px rgba(0, 0, 0, 0.55)', // 22
+    '0px 44px 48px rgba(0, 0, 0, 0.55)', // 23
+    '0px 46px 50px rgba(0, 0, 0, 0.55)', // 24
   ],
   typography: {
+    fontFamily:
+      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif',
     button: {
       fontWeight: 600,
+      letterSpacing: '0.5px',
     },
-    fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+    h1: {
+      fontSize: '3.5rem',
+      fontWeight: 700,
+      lineHeight: 1.2,
+      color: '#FFFFFF',
+    },
+    h2: {
+      fontSize: '2.5rem',
+      fontWeight: 700,
+      lineHeight: 1.3,
+      color: '#FFFFFF',
+    },
+    h3: {
+      fontSize: '2rem',
+      fontWeight: 600,
+      lineHeight: 1.4,
+      color: '#FFFFFF',
+    },
+    h4: {
+      fontSize: '1.5rem',
+      fontWeight: 600,
+      lineHeight: 1.5,
+      color: '#FFFFFF',
+    },
+    h5: {
+      fontSize: '1.25rem',
+      fontWeight: 500,
+      lineHeight: 1.6,
+      color: '#E1E8ED',
+    },
+    h6: {
+      fontSize: '1rem',
+      fontWeight: 500,
+      lineHeight: 1.6,
+      color: '#E1E8ED',
+    },
     body1: {
       fontSize: '1rem',
       fontWeight: 400,
-      lineHeight: 1.5,
-      color: '#E0E0E0',
+      lineHeight: 1.6,
+      color: '#E1E8ED',
     },
     body2: {
       fontSize: '0.875rem',
       fontWeight: 400,
-      lineHeight: 1.57,
-      color: '#E0E0E0',
+      lineHeight: 1.6,
+      color: '#B0BEC5',
     },
     subtitle1: {
       fontSize: '1rem',
       fontWeight: 500,
       lineHeight: 1.75,
-      color: '#E0E0E0',
-    },
-    subtitle2: {
-      fontSize: '0.875rem',
-      fontWeight: 500,
-      lineHeight: 1.57,
-      color: '#E0E0E0',
-    },
-    overline: {
-      fontSize: '0.75rem',
-      fontWeight: 600,
-      letterSpacing: '0.5px',
-      lineHeight: 2.5,
-      textTransform: 'uppercase',
-      color: '#BDBDBD',
+      color: '#E1E8ED',
     },
     caption: {
       fontSize: '0.75rem',
       fontWeight: 400,
       lineHeight: 1.66,
-      color: '#BDBDBD',
-    },
-    h1: {
-      fontWeight: 700,
-      fontSize: '3.5rem',
-      lineHeight: 1.375,
-      color: '#FFFFFF',
-    },
-    h2: {
-      fontWeight: 700,
-      fontSize: '2.25rem',
-      lineHeight: 1.375,
-      color: '#FFFFFF',
-    },
-    h3: {
-      fontWeight: 700,
-      fontSize: '2rem',
-      lineHeight: 1.375,
-      color: '#FFFFFF',
-    },
-    h4: {
-      fontWeight: 700,
-      fontSize: '1.5rem',
-      lineHeight: 1.375,
-      color: '#FFFFFF',
-    },
-    h5: {
-      fontWeight: 600,
-      fontSize: '1.125rem',
-      lineHeight: 1.375,
-      color: '#FFFFFF',
-    },
-    h6: {
-      fontWeight: 600,
-      fontSize: '1.000rem',
-      lineHeight: 1,
-      opacity: 0.7,
-      color: '#FFFFFF',
+      color: '#90A4AE',
     },
   },
 });
