@@ -18,6 +18,7 @@ export const Content: React.FC<IContentProps> = ({ children, title }: IContentPr
   return (
     <Box
       sx={{
+        width: "100%",
         marginLeft: `${drawerWidth}px`,
         padding: 3,
         transition: theme.transitions.create("margin-left", {
@@ -32,7 +33,7 @@ export const Content: React.FC<IContentProps> = ({ children, title }: IContentPr
           {title}
         </Typography>
       </Box >
-      <Box padding={theme.spacing(2)} flex={1} overflow="auto">
+      <Box  padding={theme.spacing(2)} flex={1} overflow="auto">
         {children}
       </Box>
     </Box>)
