@@ -28,7 +28,8 @@ export class ProcessQueueMessagesUseCase<TMessage> {
       const transcriptionData = queueMessageSchema.parse(data);
       console.log('Mensagem validada:', transcriptionData);
       if (this.messageBroker.ack) {
-        await this.wsBroker.publish(transcriptionData.userId, { transcriptionData });
+        await this.wsBroker.publish(`${transcriptionData.userId}/transcription`, { ...transcriptionData });
+        await this.wsBroker.publish(`${transcriptionData.userId}/alert`, { text: "Transcrição Concluida" });
         await this.messageBroker.ack(message);
       }
     } catch (error) {
