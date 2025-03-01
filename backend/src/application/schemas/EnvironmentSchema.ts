@@ -13,6 +13,10 @@ export const DatabaseSchema = z.object({
 });
 
 
+export const RedisSchema = z.object({
+  REDIS_HOST: z.string(),
+  REDIS_PORT: z.coerce.number().default(6379),
+});
 
 export const RabbitSchema = z.object({
   RABBIT_HOST: z.string(),
@@ -31,7 +35,10 @@ export const EnvironmentSchema = z.object({
   RABBIT_PORT: RabbitSchema.shape.RABBIT_PORT,
   RABBIT_USER: RabbitSchema.shape.RABBIT_USER,
   RABBIT_PASSWORD: RabbitSchema.shape.RABBIT_PASSWORD,
-  RABBIT_URI: RabbitSchema.shape.RABBIT_URI
+  RABBIT_URI: RabbitSchema.shape.RABBIT_URI,
+  REDIS_HOST: RedisSchema.shape.REDIS_HOST,
+  REDIS_PORT: RedisSchema.shape.REDIS_PORT
+
 
 })
 
