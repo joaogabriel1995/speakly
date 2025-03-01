@@ -5,10 +5,25 @@ export interface MessageBroker {
   content: object;
 }
 
+type Subscription = {
+  onMessage: (
+    msg: MessageBroker,
+    ack: () => void,
+    nack: (requeue?: boolean) => void
+  ) => Promise<void>;
+  onError: (
+    error: Error,
+    msg: MessageBroker,
+    ack: () => void,
+    nack: (requeue?: boolean) => void
+  ) => Promise<void>;
+};
+
 export class WebSocketBroker implements IMessageBroker<MessageBroker> {
   private static instance: WebSocketBroker | null = null;
   private wss: WebSocketServer | null = null;
-  private clients: Map<string, WebSocket> = new Map(); // Map de userId para WebSocket
+  private clients: Map<string, Map<string, WebSocket>> = new Map(); // userId -> topic -> WebSocket
+  private subscriptions: Map<string, Subscription> = new Map(); // queue -> subscription
   private isInitialized = false;
 
   private constructor(
@@ -34,15 +49,22 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
 
         ws.on('message', (data: string) => {
           try {
-            const { userId } = JSON.parse(data);
-            if (userId) {
-              this.clients.set(userId, ws);
-              console.log(`Cliente registrado com userId: ${userId}`);
+            const parsed = JSON.parse(data);
+            if (parsed.queue) {
+              // Registro inicial do cliente
+              const [userId, topic] = this.parseQueue(parsed.queue);
+              if (!this.clients.has(userId)) {
+                this.clients.set(userId, new Map());
+              }
+              this.clients.get(userId)!.set(topic, ws);
+              console.log(`Cliente registrado em ${parsed.queue}`);
             } else {
-              console.warn('Mensagem recebida sem userId:', data);
+              // Mensagem normal, processar subscrições
+              this.handleMessage(ws, data);
             }
           } catch (error) {
             console.error('Erro ao processar mensagem do cliente:', error);
+            this.handleError(ws, data, error);
           }
         });
 
@@ -63,28 +85,31 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
     }
   }
 
-  public async publish(userId: string, message: object): Promise<void> {
+  public async publish(queue: string, message: object): Promise<void> {
     if (!this.isInitialized || !this.wss) {
       throw new Error('WebSocket server not initialized. Call init() first.');
     }
 
     try {
-      const messageString = JSON.stringify(message);
-      const ws = this.clients.get(userId); // Buscar pelo userId
+      const [userId, topic] = this.parseQueue(queue);
+      const messageWithQueue = { queue, content: message }; // Envelopa a mensagem com o queue
+      const messageString = JSON.stringify(messageWithQueue);
+      const userTopics = this.clients.get(userId);
+      const ws = userTopics?.get(topic);
 
       if (ws && ws.readyState === WebSocket.OPEN) {
         ws.send(messageString);
-        console.log(`Mensagem enviada para userId: ${userId}`);
+        console.log(`Mensagem enviada para ${queue}`);
       } else {
-        console.warn(`Nenhum cliente ativo para userId: ${userId}`);
+        console.warn(`Nenhum cliente ativo para ${queue}`);
       }
     } catch (error) {
-      throw new Error(`Failed to publish message: ${error}`);
+      throw new Error(`Failed to publish message to ${queue}: ${error}`);
     }
   }
 
   public async subscribe(
-    userId: string,
+    queue: string,
     onMessage: (
       msg: MessageBroker,
       ack: () => void,
@@ -101,67 +126,98 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
       throw new Error('WebSocket server not initialized. Call init() first.');
     }
 
-    try {
-      this.wss.on('connection', (ws: WebSocket) => {
-        ws.on('message', async (messageString: string) => {
-          try {
-            const message: MessageBroker = {
-              content: JSON.parse(messageString)
-            };
-
-            const ack = async () => {
-              // No WebSocket puro, ack é no-op, mas poderia logar ou fechar conexão
-            };
-
-            const nack = async (requeue?: boolean) => {
-              if (requeue && ws.readyState === WebSocket.OPEN) {
-                ws.send(messageString);
-              }
-            };
-
-            await onMessage(message, ack, nack);
-          } catch (error) {
-            const message: MessageBroker = {
-              content: messageString ? JSON.parse(messageString) : {}
-            };
-
-            const ack = async () => {};
-            const nack = async (requeue?: boolean) => {
-              if (requeue && ws.readyState === WebSocket.OPEN) {
-                ws.send(messageString);
-              }
-            };
-
-            await onError(
-              error instanceof Error ? error : new Error(String(error)),
-              message,
-              ack,
-              nack
-            );
-          }
-        });
-      });
-    } catch (error) {
-      throw new Error(`Failed to subscribe to userId ${userId}: ${error}`);
-    }
+    this.subscriptions.set(queue, { onMessage, onError });
+    console.log(`Subscrição registrada para ${queue}`);
   }
 
   public async disconnect(): Promise<void> {
     if (this.wss) {
       this.wss.close();
       this.clients.clear();
+      this.subscriptions.clear();
       this.isInitialized = false;
       console.log('WebSocketBroker desconectado');
     }
   }
 
+  private parseQueue(queue: string): [string, string] {
+    const [userId, topic] = queue.split('/');
+    if (!userId || !topic) {
+      throw new Error(`Invalid queue format: ${queue}. Expected "userId/topic"`);
+    }
+    return [userId, topic];
+  }
+
   private removeClient(ws: WebSocket): void {
-    for (const [userId, client] of this.clients) {
-      if (client === ws) {
-        console.log(`Removendo cliente com userId: ${userId}`);
-        this.clients.delete(userId);
-        break;
+    for (const [userId, topics] of this.clients) {
+      for (const [topic, client] of topics) {
+        if (client === ws) {
+          topics.delete(topic);
+          console.log(`Removendo cliente de ${userId}/${topic}`);
+          if (topics.size === 0) {
+            this.clients.delete(userId);
+          }
+          break;
+        }
       }
     }
+  }
+
+  private async handleMessage(ws: WebSocket, messageString: string): Promise<void> {
+    const queue = this.getQueueFromWebSocket(ws);
+    if (!queue) return;
+
+    const subscription = this.subscriptions.get(queue);
+    if (!subscription) return;
+
+    const message: MessageBroker = {
+      content: JSON.parse(messageString),
+    };
+
+    const ack = async () => {};
+    const nack = async (requeue?: boolean) => {
+      if (requeue && ws.readyState === WebSocket.OPEN) {
+        ws.send(messageString);
+      }
+    };
+
+    await subscription.onMessage(message, ack, nack);
+  }
+
+  private async handleError(ws: WebSocket, messageString: string, error: unknown): Promise<void> {
+    const queue = this.getQueueFromWebSocket(ws);
+    if (!queue) return;
+
+    const subscription = this.subscriptions.get(queue);
+    if (!subscription) return;
+
+    const message: MessageBroker = {
+      content: messageString ? JSON.parse(messageString) : {},
+    };
+
+    const ack = async () => {};
+    const nack = async (requeue?: boolean) => {
+      if (requeue && ws.readyState === WebSocket.OPEN) {
+        ws.send(messageString);
+      }
+    };
+
+    await subscription.onError(
+      error instanceof Error ? error : new Error(String(error)),
+      message,
+      ack,
+      nack
+    );
+  }
+
+  private getQueueFromWebSocket(ws: WebSocket): string | null {
+    for (const [userId, topics] of this.clients) {
+      for (const [topic, client] of topics) {
+        if (client === ws) {
+          return `${userId}/${topic}`;
+        }
+      }
+    }
+    return null;
   }
 }
