@@ -11,8 +11,9 @@ export const DrawerHeader: React.FC = () => {
       sx={{
         height: "20%",
         display: "flex",
-        justifyContent: "center", // Centraliza o conteúdo horizontalmente
-        alignItems: "start",    // Centraliza verticalmente
+        justifyContent: "center",
+        alignItems: "center", // Centraliza verticalmente
+        padding: 2,           // Aumenta o espaçamento interno
       }}
     >
       <Box
@@ -20,22 +21,20 @@ export const DrawerHeader: React.FC = () => {
           display: "flex",
           alignItems: "center",
           flexDirection: "row",
-          width: "100%",         // Ocupa toda a largura disponível
-          justifyContent: isDrawerOpen ? "space-between" : "center", // Ajusta o layout
-          padding: 1,           // Espaçamento interno
+          width: "100%",
+          justifyContent: isDrawerOpen ? "space-between" : "center", // Ajusta o layout dinamicamente
         }}
       >
         {isDrawerOpen && (
-          <Box sx={{ width: "80%", display: "flex", justifyContent: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <img src={logoSvg} alt="Logo" style={{ width: "100px", height: "40px" }} />
           </Box>
         )}
         <Box
           sx={{
-            width: isDrawerOpen ? "20%" : "100%", // 20% aberto, 100% fechado
             display: "flex",
-            justifyContent: "center",             // Centraliza o botão
-            alignItems: "center",                // Centraliza verticalmente
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <IconButton color="inherit" onClick={toggleDrawerOpen}>
