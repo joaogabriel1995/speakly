@@ -1,9 +1,34 @@
 import { Box } from "@mui/material";
-import { CustomList } from "./CustonListIcon";
-import { Home } from "@mui/icons-material";
+import { CustomList, ICustomListProps } from "./CustonListIcon";
+import { Home, Transcribe } from "@mui/icons-material";
+import { NavigateFunction, useNavigate } from "react-router-dom";
 
-export const DrawerMain: React.FC = () => (
-  <Box sx={{ height: "60%"}}>
-    <CustomList icon={<Home />} text="Home"></CustomList>
-  </Box>
-);
+export const DrawerMain: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const handleClick = (navigate: NavigateFunction, to: string) => {
+    navigate(to);
+  };
+  const CustomListItens: ICustomListProps[] = [
+    { icon: <Home />, text: 'Início', onClick: () => handleClick(navigate, '/home') },
+    { icon: <Transcribe />, text: 'Transcrição', onClick: () => handleClick(navigate, '/transcription') },
+  ];
+
+
+  return (
+    <Box sx={{ height: "60%" }}>
+
+      {CustomListItens.map((Item, index) => (
+        <CustomList
+          key={index}
+          icon={Item.icon}
+          text={Item.text}
+          onClick={Item.onClick}
+
+        />
+      ))}
+
+    </Box>
+  )
+}
