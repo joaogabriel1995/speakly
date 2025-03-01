@@ -3,6 +3,7 @@ import express from 'express';
 import { configService } from '../services/configService'; // Ajuste o caminho
 import { router } from './Router';
 import cors from "cors";
+import { WebSocketBroker } from '../messaging/WebSocketServer';
 
 const app = express();
 
