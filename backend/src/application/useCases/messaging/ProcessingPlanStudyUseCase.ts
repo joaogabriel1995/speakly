@@ -27,8 +27,8 @@ export class ProcessPlanMessagesUseCase<TMessage> {
       if (this.messageBroker.ack) {
         console.log("AIOUJSHDUIOSHDUIASHDUIASHDUIASHDASIUH")
         const learningInput = LearningJourneyInput.parse(planStudyData.plan);
-        await this.createManyLearningJourney.execute(planStudyData.plan)
-        await this.wsBroker.publish(`${planStudyData.userId}/planStudy`, { ...planStudyData });
+        await this.createManyLearningJourney.execute(learningInput)
+        await this.wsBroker.publish(`${planStudyData.userId}/planStudy`, planStudyData );
         await this.wsBroker.publish(`${planStudyData.userId}/alert`, { text: "Plano de Estudos Concluida" });
         await this.messageBroker.ack(message);
       }
