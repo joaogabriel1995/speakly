@@ -1,5 +1,5 @@
 import { IRequest, IResponse, IController } from '../interfaces/adapters/IController';
-import { webhookBodySchema, WebhookBodySchemaType } from '../schemas/EvolutionWebhookSchema';
+import {  WebhookBodySchema, WebhookBodySchemaType } from '../schemas/EvolutionWebhookSchema';
 import { AppConversationOrchestratorUseCase } from '../useCases/chat/AppConversationOrchestratorUseCase';
 
 interface ChatResponse {
@@ -15,8 +15,7 @@ export class EvolutionController implements IController<WebhookBodySchemaType, C
 
     async handle(request: IRequest<WebhookBodySchemaType>): Promise<IResponse<ChatResponse>> {
         try {
-          console.log('request.body', request.body)
-            const body = webhookBodySchema.parse(request.body)
+            const body = WebhookBodySchema.parse(request.body)
             await this.appConversationOrchestratorUseCase.execute(body);
             return {
                 statusCode: 201,
