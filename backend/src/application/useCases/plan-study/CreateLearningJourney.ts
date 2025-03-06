@@ -5,7 +5,7 @@ import { LearningJourneyInputDto } from "../../schemas/LearningJorneyInputSchema
 export class CreateManyLearningJourney {
   constructor(private repository: ILearningJourneysRepository) { }
 
-  async execute(input: LearningJourneyInputDto[]): Promise<LearningJourneyEntity[]> {
+  async execute(input: LearningJourneyInputDto): Promise<LearningJourneyEntity[]> {
 
     const learningData = input.map((data) => {
       return new LearningJourneyEntity(
