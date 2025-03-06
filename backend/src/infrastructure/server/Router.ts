@@ -10,6 +10,8 @@ import { TranscriberUseCase } from "../../application/useCases/transcriber/Trans
 import { TranscriptionRepoPrisma } from "../repository/transcriberPrisma"
 import { PrismaClient } from "@prisma/client"
 import { RabbitMQBrokerAdvanced } from "../messaging/RabbitMQBroker"
+import { PlanStudyUseCase } from "../../application/useCases/plan-study/StudyPlan"
+import { PlanStudyController } from "../../application/controllers/PlanStudyController"
 
 const router = Router()
 
@@ -57,6 +59,21 @@ router.post('/transcription', async (request, response) => {
   })
 
 })
+router.post('/study', async (request, response) => {
+  const rabbitMQBroker = RabbitMQBrokerAdvanced.getInstance("amqp://localhost:5672")
+  await rabbitMQBroker.init()
 
+  const plan = new PlanStudyUseCase(rabbitMQBroker)
+  const transcriberController = new PlanStudyController(plan)
+  transcriberController.handle({
+    body: request.body,
+    method: request.method,
+    headers: request.headers
+  })
+  response.status(200).json({
+      message: "On"
+  })
+
+})
 
 export { router }
