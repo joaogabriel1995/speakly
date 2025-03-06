@@ -21,11 +21,11 @@ import {
 } from "@mui/material";
 
 interface PlanItem {
-  Objective: string;
-  Activity: string;
-  Week: number;
-  Month: number;
-  Theory: string;
+  objective: string;
+  activity: string;
+  week: number;
+  month: number;
+  theory: string;
 }
 
 interface PlanData {
@@ -49,10 +49,10 @@ export const PlanStudyPage: React.FC = () => {
 
     const grouped: Record<number, PlanItem[]> = {};
     planData.plan.forEach(item => {
-      if (!grouped[item.Month]) {
-        grouped[item.Month] = [];
+      if (!grouped[item.month]) {
+        grouped[item.month] = [];
       }
-      grouped[item.Month].push(item);
+      grouped[item.month].push(item);
     });
 
     return grouped;
@@ -197,10 +197,10 @@ export const PlanStudyPage: React.FC = () => {
                               transition: "background-color 0.2s"
                             }}
                           >
-                            <TableCell>{item.Week}</TableCell>
-                            <TableCell>{item.Objective}</TableCell>
-                            <TableCell>{item.Activity}</TableCell>
-                            <TableCell>{item.Theory}</TableCell>
+                            <TableCell>{item.week}</TableCell>
+                            <TableCell>{item.objective}</TableCell>
+                            <TableCell>{item.activity}</TableCell>
+                            <TableCell>{item.theory}</TableCell>
 
                           </TableRow>
                         ))}
