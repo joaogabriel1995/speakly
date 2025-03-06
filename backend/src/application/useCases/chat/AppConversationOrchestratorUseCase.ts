@@ -10,7 +10,6 @@ export class AppConversationOrchestratorUseCase {
     private readonly webhookAdapter: IWebhookAdapter<WebhookBodySchemaType>
   ) { }
   async execute(webhookPayloadBody: WebhookBodySchemaType) {
-    console.log("ASOIDJAIOSDJ")
     const { messageType } = webhookPayloadBody.data
     if (messageType === MessageTypeEnum.enum.conversation) {
       const message = this.webhookAdapter.toMessage(webhookPayloadBody)
