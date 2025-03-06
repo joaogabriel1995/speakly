@@ -16,6 +16,8 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const queues = [
       'ee062683-856d-452e-85e5-3cd0390f7d21/alert',
       'ee062683-856d-452e-85e5-3cd0390f7d21/transcription',
+      'ee062683-856d-452e-85e5-3cd0390f7d21/planStudy',
+
     ];
     console.log('Iniciando conexão WebSocket...');
     const websocket = new WebSocket('ws://localhost:8091');
