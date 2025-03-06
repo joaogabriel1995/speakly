@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 import { CustomList, ICustomListProps } from "./CustonListIcon";
-import { Home, Transcribe } from "@mui/icons-material";
+import { Home, PlayLesson, Transcribe } from "@mui/icons-material";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
 export const DrawerMain: React.FC = () => {
@@ -13,6 +13,8 @@ export const DrawerMain: React.FC = () => {
   const CustomListItens: ICustomListProps[] = [
     { icon: <Home />, text: 'Início', onClick: () => handleClick(navigate, '/home') },
     { icon: <Transcribe />, text: 'Transcrição', onClick: () => handleClick(navigate, '/transcription') },
+    { icon: <PlayLesson />, text: 'Plano de Estudos', onClick: () => handleClick(navigate, '/study') },
+
   ];
 
 
