@@ -61,9 +61,9 @@ const PlanStudyForm: React.FC = () => {
       // Ajuste conforme a implementação real do transcriptionService
       const response = await planStudyService.plan(
         formData.level,
-        String(formData.duration),
-        formData.daysWeek,
-        formData.hourDay,
+        Number(formData.duration),
+        Number(formData.daysWeek),
+        Number(formData.hourDay),
       );
 
       console.log("Plano gerado:", response);
