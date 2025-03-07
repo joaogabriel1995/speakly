@@ -8,15 +8,15 @@ export interface PlanStudyResponse {
 export const planStudyService = {
   plan: async (
     level: string,
-    duration: string,
-    days_week: string,
-    hour_day: string,
-    ): Promise<PlanStudyResponse> => {
+    duration: number,
+    daysWeek: number,
+    hourDay: number,
+  ): Promise<PlanStudyResponse> => {
     const response = await api.post('/study', {
       level,
       duration,
-      days_week,
-      hour_day,
+      daysWeek,
+      hourDay,
     });
     return response.data;
   },
