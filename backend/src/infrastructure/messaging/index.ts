@@ -1,8 +1,10 @@
+import { CreateLearningSettingsUseCase } from "../../application/useCases/learningSettings/createLearningSettingsUseCase";
 import { ProcessPlanMessagesUseCase } from "../../application/useCases/messaging/ProcessingPlanStudyUseCase";
-import { ProcessQueueMessagesUseCase } from "../../application/useCases/messaging/ProcessingTranscriptionUseCase";
+import { ProcessTranscriptionMessagesUseCase } from "../../application/useCases/messaging/ProcessingTranscriptionUseCase";
 import { CreateManyLearningJourney } from "../../application/useCases/plan-study/CreateLearningJourney";
 import prisma from "../prisma/client";
 import { LearningJourneyRepoPrisma } from "../repository/learningJourneyPrisma";
+import { LearningSettingsRepoPrisma } from "../repository/learningSettingsPrisma";
 import { configService } from "../services/configService";
 import { RabbitMQBrokerAdvanced } from "./RabbitMQBroker";
 import { WebSocketBroker } from "./WebSocketServer";
@@ -18,11 +20,16 @@ export async function startConsumer(): Promise<void> {
     const wsBroker = WebSocketBroker.getInstance('localhost', 8091);
     wsBroker.init()
     // Inicializa o consumer
-    const queueUseCase = new ProcessQueueMessagesUseCase(messageBroker, wsBroker);
-    await queueUseCase.execute('transcription-queue');
+    const processTranscriptUseCase = new ProcessTranscriptionMessagesUseCase(messageBroker, wsBroker);
+    await processTranscriptUseCase.execute('transcription-queue');
+
     const learningJourneyRepoPrisma = new LearningJourneyRepoPrisma(prisma)
     const createManyLearningJourney = new CreateManyLearningJourney(learningJourneyRepoPrisma)
-    const studyUseCase = new ProcessPlanMessagesUseCase(messageBroker, wsBroker, createManyLearningJourney);
+
+
+    const learningSettingsRepository = new LearningSettingsRepoPrisma(prisma)
+    const createLearningSettingsUseCase = new CreateLearningSettingsUseCase(learningSettingsRepository)
+    const studyUseCase = new ProcessPlanMessagesUseCase(messageBroker, wsBroker, createManyLearningJourney, createLearningSettingsUseCase);
     await studyUseCase.execute('agent-plan-study-response');
   } catch (error) {
     console.error("Error RabbitMQConsumer")
