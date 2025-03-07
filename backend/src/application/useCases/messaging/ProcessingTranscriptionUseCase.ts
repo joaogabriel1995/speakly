@@ -13,7 +13,7 @@ const queueMessageSchema = z.object({
 });
 type QueueMessage = z.infer<typeof queueMessageSchema>;
 
-export class ProcessQueueMessagesUseCase<TMessage> {
+export class ProcessTranscriptionMessagesUseCase<TMessage> {
   constructor(
     private readonly messageBroker: IMessageBroker<TMessage>,// TMessage é genérico,
     private readonly wsBroker: IMessageBroker<TMessage> // TMessage é genérico,
