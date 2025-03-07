@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -14,48 +8,87 @@ datasource db {
 }
 
 model User {
-  id            String          @id
-  name          String
-  email         String          @unique
-  password      String
-  cellphone     String
-  chats         Chat[]
-  Transcription Transcription[]
+  id               String            @id @default(uuid()) @map("id")
+  name             String            @map("name")
+  email            String            @unique @map("email")
+  password         String            @map("password")
+  cellphone        String            @map("cellphone")
+  chats            Chat[]
+  transcriptions   Transcription[]
+  learningJourneys LearningJourney[]
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model Chat {
-  id       String    @id
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId   String
-  messages Message[]
+  id        String    @id @default(uuid()) @map("id")
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  Message[]
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+
+  @@index([userId])
+  @@map("chats")
 }
 
 model Message {
-  id         String   @id
-  text       String
-  sender     String
-  senderType String
-  timestamp  DateTime @default(now())
+  id         String   @id @default(uuid()) @map("id")
+  text       String   @map("text")
+  sender     String   @map("sender")
+  senderType String   @map("sender_type")
+  timestamp  DateTime @default(now()) @map("timestamp")
+  chatId     String   @map("chat_id")
   chat       Chat     @relation(fields: [chatId], references: [id], onDelete: Cascade)
-  chatId     String
+
+  @@index([chatId, timestamp])
+  @@map("messages")
 }
 
 model Transcription {
-  id              String  @id
-  url             String
-  transcriberType String
-  userId          String?
-  user            User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  text            String?
-  status          String
-  language        String?
+  id              String   @id @default(uuid()) @map("id")
+  url             String   @map("url")
+  transcriberType String   @map("transcriber_type")
+  userId          String?  @map("user_id")
+  user            User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text            String?  @map("text")
+  status          String   @map("status")
+  language        String?  @map("language")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  @@index([userId, status])
+  @@map("transcriptions")
 }
 
 model LearningJourney {
-  id        String @id
-  objective String
-  activity  String
-  week      Int
-  month     Int
-  theory    String
+  id        String @id @default(uuid()) @map("id")
+  objective String @map("objective")
+  activity  String @map("activity")
+  week      Int    @map("week")
+  month     Int    @map("month")
+  theory    String @map("theory")
+  userId    String @map("user_id")
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  LearningSettingsId String           @map("learning_settings_id")
+  learningSettings   LearningSettings @relation(fields: [LearningSettingsId], references: [id], onDelete: Cascade)
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+
+  @@index([userId, month, week])
+  @@map("learning_journeys")
+}
+
+model LearningSettings {
+  id              String            @id @default(uuid()) @map("id")
+  level           String            @map("level")
+  duration        Int               @map("duration")
+  daysWeek        Int               @map("days_week")
+  hourDay         Int               @map("hour_day")
+  learningJourney LearningJourney[]
+
+  @@map("learning_settings")
 }
