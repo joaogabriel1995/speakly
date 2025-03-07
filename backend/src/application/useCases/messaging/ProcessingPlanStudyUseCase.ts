@@ -4,6 +4,7 @@ import { IMessageBroker } from '../../../infrastructure/messaging/IMessageBroker
 import { PlanStudyOutputSchema } from '../../schemas/ProcessingPlanStudyOutput';
 import { LearningJourneyInput } from '../../schemas/LearningJorneyInputSchema';
 import { CreateManyLearningJourney } from '../plan-study/CreateLearningJourney';
+import { CreateLearningSettingsUseCase } from '../learningSettings/createLearningSettingsUseCase';
 
 // Schema de exemplo para mensagens da fila (pode ser movido para fora ou parametrizado)
 
@@ -12,8 +13,9 @@ import { CreateManyLearningJourney } from '../plan-study/CreateLearningJourney';
 export class ProcessPlanMessagesUseCase<TMessage> {
   constructor(
     private readonly messageBroker: IMessageBroker<TMessage>,// TMessage é genérico,
-    private readonly wsBroker: IMessageBroker<TMessage> ,// TMessage é genérico,
-    private readonly createManyLearningJourney: CreateManyLearningJourney
+    private readonly wsBroker: IMessageBroker<TMessage>,// TMessage é genérico,
+    private readonly createManyLearningJourney: CreateManyLearningJourney,
+    private readonly createLearningSettingsUseCase: CreateLearningSettingsUseCase
   ) { }
 
   private async onMessage(message: TMessage) {
@@ -25,10 +27,14 @@ export class ProcessPlanMessagesUseCase<TMessage> {
       const planStudyData = PlanStudyOutputSchema.parse(data);
       console.log('Mensagem validada:', planStudyData);
       if (this.messageBroker.ack) {
-        console.log("AIOUJSHDUIOSHDUIASHDUIASHDUIASHDASIUH")
-        const learningInput = LearningJourneyInput.parse(planStudyData.plan);
+
+        const {settings, ...rest} = planStudyData
+        const learningSetting = await this.createLearningSettingsUseCase.execute(settings)
+        console.log(learningSetting)
+        const learningInput = LearningJourneyInput.parse({ "learningSettingsId": learningSetting.getId(), ...rest });
+
         await this.createManyLearningJourney.execute(learningInput)
-        await this.wsBroker.publish(`${planStudyData.userId}/planStudy`, planStudyData );
+        await this.wsBroker.publish(`${planStudyData.userId}/planStudy`, planStudyData);
         await this.wsBroker.publish(`${planStudyData.userId}/alert`, { text: "Plano de Estudos Concluida" });
         await this.messageBroker.ack(message);
       }
