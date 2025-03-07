@@ -7,7 +7,8 @@ export class CreateManyLearningJourney {
 
   async execute(input: LearningJourneyInputDto): Promise<LearningJourneyEntity[]> {
 
-    const learningData = input.map((data) => {
+    const { plan, userId, learningSettingsId } = input
+    const learningData = plan.map((data) => {
       return new LearningJourneyEntity(
         {
           objective: data.objective,
@@ -15,6 +16,8 @@ export class CreateManyLearningJourney {
           week: data.week,
           month: data.month,
           theory: data.theory,
+          userId: userId,
+          learningJourneyId: learningSettingsId
         }
       );
     })
