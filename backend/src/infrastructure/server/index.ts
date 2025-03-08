@@ -1,7 +1,7 @@
 // server/index.ts
 import express from "express";
 import { configService } from "../services/config.service"; // Ajuste o caminho
-import { router } from "./router";
+import { router } from "./routes/router";
 import cors from "cors";
 import { WebSocketBroker } from "../messaging/web-socket-server";
 
