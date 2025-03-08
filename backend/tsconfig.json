@@ -1,22 +1,22 @@
 {
   "compilerOptions": {
     /* Language and Environment */
-    "target": "ES2020",              /* Node.js 14+ suporta ES2020 nativamente */
-    "module": "CommonJS",             /* Padrão para Node.js */
-    "strict": true,                  /* Checagem rigorosa, alinhada com Airbnb */
-    "esModuleInterop": true,         /* Interoperabilidade com CommonJS */
-    "forceConsistentCasingInFileNames": true, /* Boa prática */
-    "skipLibCheck": true,            /* Performance */
+    "target": "ES2020" /* Node.js 14+ suporta ES2020 nativamente */,
+    "module": "CommonJS" /* Padrão para Node.js */,
+    "strict": true /* Checagem rigorosa, alinhada com Airbnb */,
+    "esModuleInterop": true /* Interoperabilidade com CommonJS */,
+    "forceConsistentCasingInFileNames": true /* Boa prática */,
+    "skipLibCheck": true /* Performance */,
 
     /* Emit */
-    "outDir": "./dist",              /* Saída dos arquivos compilados */
-    "rootDir": "./src",              /* Diretório dos fontes */
-    "sourceMap": true,               /* Para depuração */
-    "noEmitOnError": true,           /* Evita builds com erros */
+    "outDir": "./dist" /* Saída dos arquivos compilados */,
+    "rootDir": "./src" /* Diretório dos fontes */,
+    "sourceMap": true /* Para depuração */,
+    "noEmitOnError": true /* Evita builds com erros */,
 
     /* Modules */
-    "moduleResolution": "node",      /* Resolução de módulos para Node.js */
-    "resolveJsonModule": true        /* Permite importar .json, útil para APIs */
+    "moduleResolution": "node" /* Resolução de módulos para Node.js */,
+    "resolveJsonModule": true /* Permite importar .json, útil para APIs */
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

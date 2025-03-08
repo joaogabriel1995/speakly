@@ -7,10 +7,10 @@ import { startServer } from "./infrastructure/server";
 (async () => {
   try {
     await startServer();
-    await startConsumer()
-    console.log('Aplicação inicializada com sucesso');
+    await startConsumer();
+    console.log("Aplicação inicializada com sucesso");
   } catch (error) {
-    console.error('Erro ao inicializar a aplicação:', error);
+    console.error("Erro ao inicializar a aplicação:", error);
     process.exit(1);
   }
 })();

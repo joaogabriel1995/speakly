@@ -1,7 +1,4 @@
-import { z } from 'zod'
-
-
-
+import { z } from "zod";
 
 export const DatabaseSchema = z.object({
   DATABASE_HOST: z.string(),
@@ -9,9 +6,7 @@ export const DatabaseSchema = z.object({
   DATABASE_USER: z.string(),
   DATABASE_PASSWORD: z.string(),
   DATABASE_NAME: z.string(),
-
 });
-
 
 export const RedisSchema = z.object({
   REDIS_HOST: z.string(),
@@ -28,7 +23,6 @@ export const RabbitSchema = z.object({
 
 export type RabbitConfig = z.infer<typeof RabbitSchema>;
 
-
 export const EnvironmentSchema = z.object({
   SERVER_PORT: z.coerce.number().default(3000),
   RABBIT_HOST: RabbitSchema.shape.RABBIT_HOST,
@@ -37,9 +31,7 @@ export const EnvironmentSchema = z.object({
   RABBIT_PASSWORD: RabbitSchema.shape.RABBIT_PASSWORD,
   RABBIT_URI: RabbitSchema.shape.RABBIT_URI,
   REDIS_HOST: RedisSchema.shape.REDIS_HOST,
-  REDIS_PORT: RedisSchema.shape.REDIS_PORT
+  REDIS_PORT: RedisSchema.shape.REDIS_PORT,
+});
 
-
-})
-
-export type EnvironmentConfig = z.infer<typeof EnvironmentSchema>
+export type EnvironmentConfig = z.infer<typeof EnvironmentSchema>;

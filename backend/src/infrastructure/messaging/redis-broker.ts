@@ -13,8 +13,8 @@ export class RedisBroker implements IMessageBroker<Message> {
 
   private constructor(
     private readonly host: string,
-    private readonly port: number
-  ) { }
+    private readonly port: number,
+  ) {}
 
   public static getInstance(host: string, port: number): RedisBroker {
     if (!RedisBroker.instance) {
@@ -31,22 +31,19 @@ export class RedisBroker implements IMessageBroker<Message> {
       this.publisher = createClient({
         socket: {
           host: this.host,
-          port: this.port
-        }
+          port: this.port,
+        },
       });
 
       this.subscriber = createClient({
         socket: {
           host: this.host,
-          port: this.port
-        }
+          port: this.port,
+        },
       });
 
       // Conectar ambos os clientes
-      await Promise.all([
-        this.publisher.connect(),
-        this.subscriber.connect()
-      ]);
+      await Promise.all([this.publisher.connect(), this.subscriber.connect()]);
 
       this.isInitialized = true;
     } catch (error) {
@@ -72,14 +69,14 @@ export class RedisBroker implements IMessageBroker<Message> {
     onMessage: (
       msg: Message,
       ack: () => void,
-      nack: (requeue?: boolean) => void
+      nack: (requeue?: boolean) => void,
     ) => Promise<void>,
     onError: (
       error: Error,
       msg: Message,
       ack: () => void,
-      nack: (requeue?: boolean) => void
-    ) => Promise<void>
+      nack: (requeue?: boolean) => void,
+    ) => Promise<void>,
   ): Promise<void> {
     if (!this.isInitialized || !this.subscriber) {
       throw new Error("Redis client not initialized. Call init() first.");
@@ -89,13 +86,11 @@ export class RedisBroker implements IMessageBroker<Message> {
       await this.subscriber.subscribe(queue, async (messageString) => {
         try {
           const message: Message = {
-            content: JSON.parse(messageString)
+            content: JSON.parse(messageString),
           };
-          const ack = async () => {
-          };
+          const ack = async () => {};
 
           const nack = async (requeue?: boolean) => {
-
             if (requeue && this.publisher) {
               await this.publisher.publish(queue, messageString);
             }
@@ -104,20 +99,22 @@ export class RedisBroker implements IMessageBroker<Message> {
           await onMessage(message, ack, nack);
         } catch (error) {
           const message: Message = {
-            content: messageString ? JSON.parse(messageString) : {}
+            content: messageString ? JSON.parse(messageString) : {},
           };
 
-          const ack = async () => { };
+          const ack = async () => {};
           const nack = async (requeue?: boolean) => {
             if (requeue && this.publisher) {
               await this.publisher.publish(queue, messageString);
             }
           };
 
-          await onError(error instanceof Error ? error : new Error(String(error)),
+          await onError(
+            error instanceof Error ? error : new Error(String(error)),
             message,
             ack,
-            nack);
+            nack,
+          );
         }
       });
     } catch (error) {

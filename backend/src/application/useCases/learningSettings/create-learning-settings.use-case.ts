@@ -4,10 +4,14 @@ import { ILearningSettingsRepository } from "../../../domain/repository/learning
 import { LearningSettingsInputDto } from "../../schemas/learning-settings-input.schema";
 
 export class CreateLearningSettingsUseCase {
-  constructor(private learningSettingsRepository: ILearningSettingsRepository){ }
+  constructor(
+    private learningSettingsRepository: ILearningSettingsRepository,
+  ) {}
 
-  async execute(input: LearningSettingsInputDto) :Promise<LearningSettingsEntity>{
-    const learningSettings = new LearningSettingsEntity(input)
-    return await this.learningSettingsRepository.create(learningSettings)
+  async execute(
+    input: LearningSettingsInputDto,
+  ): Promise<LearningSettingsEntity> {
+    const learningSettings = new LearningSettingsEntity(input);
+    return await this.learningSettingsRepository.create(learningSettings);
   }
 }

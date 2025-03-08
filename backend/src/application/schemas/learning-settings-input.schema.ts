@@ -6,6 +6,8 @@ export const LearningSettingsInputSchema = z.object({
   daysWeek: z.number(),
   hourDay: z.number(),
   userId: z.string(),
-})
+});
 
-export type LearningSettingsInputDto = z.infer<typeof LearningSettingsInputSchema>
+export type LearningSettingsInputDto = z.infer<
+  typeof LearningSettingsInputSchema
+>;

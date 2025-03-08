@@ -1,14 +1,16 @@
-import amqp, { Connection, Channel, Message, Options } from 'amqplib';
-import { IMessageBroker } from './message-broker';
+import amqp, { Connection, Channel, Message, Options } from "amqplib";
+import { IMessageBroker } from "./message-broker";
 
-export class RabbitMQBrokerAdvanced implements IMessageBroker<Message, Options.Publish> {
+export class RabbitMQBrokerAdvanced
+  implements IMessageBroker<Message, Options.Publish>
+{
   private static instance: RabbitMQBrokerAdvanced | null = null;
   private connection: Connection | null = null;
   private channel: Channel | null = null;
   private replyQueue: string | null = null;
   private isInitialized = false;
 
-  private constructor(private readonly uri: string) { }
+  private constructor(private readonly uri: string) {}
 
   public static getInstance(uri: string): RabbitMQBrokerAdvanced {
     if (!RabbitMQBrokerAdvanced.instance) {
@@ -27,12 +29,12 @@ export class RabbitMQBrokerAdvanced implements IMessageBroker<Message, Options.P
     this.connection = await amqp.connect(this.uri);
     this.channel = await this.connection.createChannel();
 
-    const { queue } = await this.channel.assertQueue('', { exclusive: true });
+    const { queue } = await this.channel.assertQueue("", { exclusive: true });
     this.replyQueue = queue;
     this.isInitialized = true;
 
-    this.connection.on('error', (err) => {
-      console.error('RabbitMQ connection error:', err);
+    this.connection.on("error", (err) => {
+      console.error("RabbitMQ connection error:", err);
       this.isInitialized = false;
       this.channel = null;
       this.connection = null;
@@ -44,7 +46,7 @@ export class RabbitMQBrokerAdvanced implements IMessageBroker<Message, Options.P
       await this.init();
     }
     if (!this.channel) {
-      throw new Error('Channel not initialized');
+      throw new Error("Channel not initialized");
     }
   }
 
@@ -58,16 +60,32 @@ export class RabbitMQBrokerAdvanced implements IMessageBroker<Message, Options.P
     this.channel!.nack(msg, false, requeue);
   }
 
-  public async publish(queue: string, message: object, options?: Options.Publish): Promise<void> {
+  public async publish(
+    queue: string,
+    message: object,
+    options?: Options.Publish,
+  ): Promise<void> {
     await this.ensureInitialized();
     await this.channel!.assertQueue(queue, { durable: true });
-    this.channel!.sendToQueue(queue, Buffer.from(JSON.stringify(message)), { ...options, persistent: true });
+    this.channel!.sendToQueue(queue, Buffer.from(JSON.stringify(message)), {
+      ...options,
+      persistent: true,
+    });
   }
 
   public async subscribe(
     queue: string,
-    onMessage: (msg: Message, ack: () => void, nack: (requeue?: boolean) => void) => Promise<void>,
-    onError: (error: Error, msg: Message, ack: () => void, nack: (requeue?: boolean) => void) => Promise<void>
+    onMessage: (
+      msg: Message,
+      ack: () => void,
+      nack: (requeue?: boolean) => void,
+    ) => Promise<void>,
+    onError: (
+      error: Error,
+      msg: Message,
+      ack: () => void,
+      nack: (requeue?: boolean) => void,
+    ) => Promise<void>,
   ): Promise<void> {
     await this.ensureInitialized();
     await this.channel!.assertQueue(queue, { durable: true });
@@ -83,12 +101,13 @@ export class RabbitMQBrokerAdvanced implements IMessageBroker<Message, Options.P
         try {
           await onMessage(msg, ack, nack);
         } catch (error) {
-          console.error('Error processing message:', error);
-          const err = error instanceof Error ? error : new Error('Unknown error');
+          console.error("Error processing message:", error);
+          const err =
+            error instanceof Error ? error : new Error("Unknown error");
           await onError(err, msg, ack, nack);
         }
       },
-      { noAck: false }
+      { noAck: false },
     );
   }
 

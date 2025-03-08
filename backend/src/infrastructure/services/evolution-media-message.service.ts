@@ -1,6 +1,9 @@
 import axios, { AxiosInstance } from "axios";
 import { IMediaMessageService } from "../../domain/services/media-message-service";
-import { MediaMessageResponseDTO, mediaMessageResponseSchema } from "../../application/schemas/media-message.schema";
+import {
+  MediaMessageResponseDTO,
+  mediaMessageResponseSchema,
+} from "../../application/schemas/media-message.schema";
 
 export class EvolutionMediaMessageService implements IMediaMessageService {
   private readonly client: AxiosInstance;
@@ -14,7 +17,11 @@ export class EvolutionMediaMessageService implements IMediaMessageService {
     });
   }
 
-  async getBase64FromMediaMessage(instance: string, messageID: string, apikey: string): Promise<MediaMessageResponseDTO> {
+  async getBase64FromMediaMessage(
+    instance: string,
+    messageID: string,
+    apikey: string,
+  ): Promise<MediaMessageResponseDTO> {
     if (!instance?.trim()) {
       throw new Error("Instance ID cannot be empty");
     }
@@ -25,21 +32,22 @@ export class EvolutionMediaMessageService implements IMediaMessageService {
       const response = await this.client.post<string>(
         `/chat/getBase64FromMediaMessage/${instance}`,
         {
-          "message": {
-            "key": {
-              "id": messageID
-            }
+          message: {
+            key: {
+              id: messageID,
+            },
           },
-          "convertToMp4": true
+          convertToMp4: true,
         },
-        { headers: { "apikey": apikey, "Content-Type": "application/json" } }
-
+        { headers: { apikey: apikey, "Content-Type": "application/json" } },
       );
       const base64Data = mediaMessageResponseSchema.parse(response.data);
       return base64Data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        throw new Error(`Failed to fetch media message: ${error.response?.status} - ${error.message}`);
+        throw new Error(
+          `Failed to fetch media message: ${error.response?.status} - ${error.message}`,
+        );
       }
       throw new Error(`Unexpected error fetching media message: ${error}}`);
     }

@@ -1,28 +1,33 @@
-import { Prisma, PrismaClient } from "@prisma/client"
-import { LearningSettingsEntity } from "../../domain/entities/learning-settings.entity"
+import { Prisma, PrismaClient } from "@prisma/client";
+import { LearningSettingsEntity } from "../../domain/entities/learning-settings.entity";
 import { ILearningSettingsRepository } from "../../domain/repository/learning-settings-repository.interface";
 
 export class LearningSettingsRepoPrisma implements ILearningSettingsRepository {
-  constructor(private prisma: PrismaClient) { }
-  async create(learningSetting: LearningSettingsEntity): Promise<LearningSettingsEntity> {
+  constructor(private prisma: PrismaClient) {}
+  async create(
+    learningSetting: LearningSettingsEntity,
+  ): Promise<LearningSettingsEntity> {
     const data: Prisma.LearningSettingsCreateInput = {
       daysWeek: learningSetting.getDaysWeek(),
       duration: learningSetting.getDuration(),
       hourDay: learningSetting.getHourDay(),
       level: learningSetting.getLevel(),
-      user: { connect: { id: learningSetting.getUserId() } }
+      user: { connect: { id: learningSetting.getUserId() } },
     };
-    const learningSettinsPrisma = await this.prisma.learningSettings.create({ data });
+    const learningSettinsPrisma = await this.prisma.learningSettings.create({
+      data,
+    });
 
-    return new LearningSettingsEntity({
-      daysWeek: learningSetting.getDaysWeek(),
-      duration: learningSetting.getDuration(),
-      hourDay: learningSetting.getHourDay(),
-      level: learningSetting.getLevel(),
-      userId: learningSetting.getUserId()
-    },
-      learningSettinsPrisma.id
-    )
+    return new LearningSettingsEntity(
+      {
+        daysWeek: learningSetting.getDaysWeek(),
+        duration: learningSetting.getDuration(),
+        hourDay: learningSetting.getHourDay(),
+        level: learningSetting.getLevel(),
+        userId: learningSetting.getUserId(),
+      },
+      learningSettinsPrisma.id,
+    );
   }
   async findManyByUserId(userId: string): Promise<LearningSettingsEntity[]> {
     const settingsFromDb = await this.prisma.learningSettings.findMany({
@@ -40,10 +45,9 @@ export class LearningSettingsRepoPrisma implements ILearningSettingsRepository {
     });
 
     const settingsEntities = settingsFromDb.map(
-      (setting) => new LearningSettingsEntity(setting)
+      (setting) => new LearningSettingsEntity(setting),
     );
 
     return settingsEntities;
   }
-
 }

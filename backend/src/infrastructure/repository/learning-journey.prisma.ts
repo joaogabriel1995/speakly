@@ -1,9 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client"
-import { LearningJourneyEntity } from "../../domain/entities/learning-journey.entity"
+import { Prisma, PrismaClient } from "@prisma/client";
+import { LearningJourneyEntity } from "../../domain/entities/learning-journey.entity";
 import { ILearningJourneysRepository } from "../../domain/repository/learning-journey-repository.interface";
 
 export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
-  constructor(private prisma: PrismaClient) { }
+  constructor(private prisma: PrismaClient) {}
   async create(LearningJourney: LearningJourneyEntity): Promise<void> {
     const data: Prisma.LearningJourneyCreateInput = {
       activity: LearningJourney.getActivity(),
@@ -12,14 +12,15 @@ export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
       theory: LearningJourney.getTheory(),
       week: LearningJourney.getWeek(),
       id: LearningJourney.getId(),
-      user: {connect: {id: LearningJourney.getUserId()}},
-      learningSettings: {connect: {id: LearningJourney.getLearningJourneyId()}}
-
+      user: { connect: { id: LearningJourney.getUserId() } },
+      learningSettings: {
+        connect: { id: LearningJourney.getLearningJourneyId() },
+      },
     };
     await this.prisma.learningJourney.create({ data });
   }
   async createMany(learningJourney: LearningJourneyEntity[]): Promise<void> {
-    const data = learningJourney.map(((value) => {
+    const data = learningJourney.map((value) => {
       const data: Prisma.LearningJourneyCreateManyInput = {
         activity: value.getActivity(),
         month: value.getMonth(),
@@ -28,12 +29,10 @@ export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
         week: value.getWeek(),
         id: value.getId(),
         userId: value.getUserId(),
-        LearningSettingsId: value.getLearningJourneyId()
+        LearningSettingsId: value.getLearningJourneyId(),
       };
-      return data
-    }))
+      return data;
+    });
     await this.prisma.learningJourney.createMany({ data });
-
   }
-
 }

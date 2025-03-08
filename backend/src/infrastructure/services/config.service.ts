@@ -1,11 +1,13 @@
-import { EnvironmentConfig, EnvironmentSchema } from "../../application/schemas/environment.schema";
+import {
+  EnvironmentConfig,
+  EnvironmentSchema,
+} from "../../application/schemas/environment.schema";
 import { EnvLoader, IEnvLoader } from "../config/env-loader";
-
 
 export class ConfigService {
   private config: EnvironmentConfig | null = null;
 
-  constructor(private envLoader: IEnvLoader<EnvironmentConfig>) { }
+  constructor(private envLoader: IEnvLoader<EnvironmentConfig>) {}
 
   getConfig(): EnvironmentConfig {
     if (!this.config) {
@@ -23,15 +25,13 @@ export const configService = (() => {
     return new ConfigService(envLoader);
   };
 
-
   return {
     getInstance: (): ConfigService => {
       if (!instance) {
         instance = createInstance();
         if (instance !== null) {
-          instance.getConfig()
+          instance.getConfig();
         }
-
       }
       return instance;
     },

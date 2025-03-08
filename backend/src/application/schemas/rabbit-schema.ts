@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const rabbitSchema = z.object({
   RABBIT_HOST: z.string(),

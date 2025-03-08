@@ -1,5 +1,5 @@
-import { z } from 'zod';
-import { LearningSettingsInputSchema } from './learning-settings-input.schema';
+import { z } from "zod";
+import { LearningSettingsInputSchema } from "./learning-settings-input.schema";
 
 // Schema de exemplo para mensagens da fila (pode ser movido para fora ou parametrizado)
 
@@ -10,14 +10,13 @@ const PlanEntrySchema = z.object({
   week: z.number().int(),
   month: z.number().int(),
   theory: z.string(),
-
 });
 
 // Definindo o schema para o plano completo
 export const PlanStudyOutputSchema = z.object({
   plan: z.array(PlanEntrySchema),
   userId: z.string(),
-  settings: LearningSettingsInputSchema
+  settings: LearningSettingsInputSchema,
 });
 
 // Inferindo o tipo TypeScript a partir do schema

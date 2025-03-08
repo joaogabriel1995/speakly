@@ -1,5 +1,5 @@
-import WebSocket, { WebSocketServer } from 'ws';
-import { IMessageBroker } from './message-broker';
+import WebSocket, { WebSocketServer } from "ws";
+import { IMessageBroker } from "./message-broker";
 
 export interface MessageBroker {
   content: object;
@@ -9,13 +9,13 @@ type Subscription = {
   onMessage: (
     msg: MessageBroker,
     ack: () => void,
-    nack: (requeue?: boolean) => void
+    nack: (requeue?: boolean) => void,
   ) => Promise<void>;
   onError: (
     error: Error,
     msg: MessageBroker,
     ack: () => void,
-    nack: (requeue?: boolean) => void
+    nack: (requeue?: boolean) => void,
   ) => Promise<void>;
 };
 
@@ -28,7 +28,7 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
 
   private constructor(
     private readonly host: string,
-    private readonly port: number
+    private readonly port: number,
   ) {}
 
   public static getInstance(host: string, port: number): WebSocketBroker {
@@ -44,10 +44,10 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
     try {
       this.wss = new WebSocketServer({ host: this.host, port: this.port });
 
-      this.wss.on('connection', (ws: WebSocket) => {
-        console.log('Novo cliente conectado!');
+      this.wss.on("connection", (ws: WebSocket) => {
+        console.log("Novo cliente conectado!");
 
-        ws.on('message', (data: string) => {
+        ws.on("message", (data: string) => {
           try {
             const parsed = JSON.parse(data);
             if (parsed.queue) {
@@ -63,17 +63,17 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
               this.handleMessage(ws, data);
             }
           } catch (error) {
-            console.error('Erro ao processar mensagem do cliente:', error);
+            console.error("Erro ao processar mensagem do cliente:", error);
             this.handleError(ws, data, error);
           }
         });
 
-        ws.on('close', () => {
+        ws.on("close", () => {
           this.removeClient(ws);
         });
 
-        ws.on('error', (error) => {
-          console.error('Erro no WebSocket:', error);
+        ws.on("error", (error) => {
+          console.error("Erro no WebSocket:", error);
           this.removeClient(ws);
         });
       });
@@ -87,7 +87,7 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
 
   public async publish(queue: string, message: object): Promise<void> {
     if (!this.isInitialized || !this.wss) {
-      throw new Error('WebSocket server not initialized. Call init() first.');
+      throw new Error("WebSocket server not initialized. Call init() first.");
     }
 
     try {
@@ -113,17 +113,17 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
     onMessage: (
       msg: MessageBroker,
       ack: () => void,
-      nack: (requeue?: boolean) => void
+      nack: (requeue?: boolean) => void,
     ) => Promise<void>,
     onError: (
       error: Error,
       msg: MessageBroker,
       ack: () => void,
-      nack: (requeue?: boolean) => void
-    ) => Promise<void>
+      nack: (requeue?: boolean) => void,
+    ) => Promise<void>,
   ): Promise<void> {
     if (!this.isInitialized || !this.wss) {
-      throw new Error('WebSocket server not initialized. Call init() first.');
+      throw new Error("WebSocket server not initialized. Call init() first.");
     }
 
     this.subscriptions.set(queue, { onMessage, onError });
@@ -136,14 +136,16 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
       this.clients.clear();
       this.subscriptions.clear();
       this.isInitialized = false;
-      console.log('WebSocketBroker desconectado');
+      console.log("WebSocketBroker desconectado");
     }
   }
 
   private parseQueue(queue: string): [string, string] {
-    const [userId, topic] = queue.split('/');
+    const [userId, topic] = queue.split("/");
     if (!userId || !topic) {
-      throw new Error(`Invalid queue format: ${queue}. Expected "userId/topic"`);
+      throw new Error(
+        `Invalid queue format: ${queue}. Expected "userId/topic"`,
+      );
     }
     return [userId, topic];
   }
@@ -163,7 +165,10 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
     }
   }
 
-  private async handleMessage(ws: WebSocket, messageString: string): Promise<void> {
+  private async handleMessage(
+    ws: WebSocket,
+    messageString: string,
+  ): Promise<void> {
     const queue = this.getQueueFromWebSocket(ws);
     if (!queue) return;
 
@@ -184,7 +189,11 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
     await subscription.onMessage(message, ack, nack);
   }
 
-  private async handleError(ws: WebSocket, messageString: string, error: unknown): Promise<void> {
+  private async handleError(
+    ws: WebSocket,
+    messageString: string,
+    error: unknown,
+  ): Promise<void> {
     const queue = this.getQueueFromWebSocket(ws);
     if (!queue) return;
 
@@ -206,7 +215,7 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
       error instanceof Error ? error : new Error(String(error)),
       message,
       ack,
-      nack
+      nack,
     );
   }
 

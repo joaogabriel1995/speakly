@@ -1,32 +1,29 @@
-
-
 import { v4 as uuid } from "uuid";
 
 interface TranscriptionProps {
   url: string;
-  trasncriberType: "youtube" | "audio"
+  trasncriberType: "youtube" | "audio";
   userId: string;
   text?: string;
   status?: "pending" | "completed" | "failed";
   language?: string;
 }
 
-
 export class Transcription {
   private readonly id: string;
   private status: string;
-  private text: string | null
-  private language: string | null
-  private userId: string | null
+  private text: string | null;
+  private language: string | null;
+  private userId: string | null;
   private url: string;
-  private trasncriberType: "youtube" | "audio"
+  private trasncriberType: "youtube" | "audio";
 
   constructor(props: TranscriptionProps, id?: string) {
     this.id = id ?? uuid();
     this.language = props.language ?? null;
-    this.status = props.status ?? 'pending';
+    this.status = props.status ?? "pending";
     this.text = props.text ?? null;
-    this.userId = props.userId ?? null
+    this.userId = props.userId ?? null;
     this.url = props.url;
     this.trasncriberType = props.trasncriberType;
   }
@@ -62,19 +59,19 @@ export class Transcription {
     this.language = language;
   }
   isCompleted(): boolean {
-    return this.status === 'completed';
+    return this.status === "completed";
   }
   isFailed(): boolean {
-    return this.status === 'failed';
+    return this.status === "failed";
   }
   isPending(): boolean {
-    return this.status === 'pending';
+    return this.status === "pending";
   }
   isYoutube(): boolean {
-    return this.language === 'youtube';
+    return this.language === "youtube";
   }
   isAudio(): boolean {
-    return this.language === 'audio';
+    return this.language === "audio";
   }
   isFromUser(): boolean {
     return this.userId !== null;
