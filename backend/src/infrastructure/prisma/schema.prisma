@@ -8,16 +8,17 @@ datasource db {
 }
 
 model User {
-  id               String            @id @default(uuid()) @map("id")
-  name             String            @map("name")
-  email            String            @unique @map("email")
-  password         String            @map("password")
-  cellphone        String            @map("cellphone")
+  id               String             @id @default(uuid()) @map("id")
+  name             String             @map("name")
+  email            String             @unique @map("email")
+  password         String             @map("password")
+  cellphone        String             @map("cellphone")
   chats            Chat[]
   transcriptions   Transcription[]
   learningJourneys LearningJourney[]
-  createdAt        DateTime          @default(now()) @map("created_at")
-  updatedAt        DateTime          @updatedAt @map("updated_at")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+  LearningSettings LearningSettings[]
 
   @@map("users")
 }
@@ -89,6 +90,10 @@ model LearningSettings {
   daysWeek        Int               @map("days_week")
   hourDay         Int               @map("hour_day")
   learningJourney LearningJourney[]
+  userId          String            @map("user_id")
+  user            User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt       DateTime          @default(now()) @map("created_at")
+  updatedAt       DateTime          @updatedAt @map("updated_at")
 
   @@map("learning_settings")
 }
