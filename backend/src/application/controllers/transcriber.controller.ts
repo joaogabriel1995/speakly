@@ -1,4 +1,4 @@
-import { IController, IRequest, IResponse } from "../interfaces/adapters/controler.interface";
+import { IController, IRequest, IResponse } from "../interfaces/adapters/controller.interface";
 import { TransctiptionSchema, TransctiptionUseCaseDto } from "../schemas/transcription.schema";
 import { TranscriberUseCase } from "../useCases/transcriber/transcriber.use-case";
 
