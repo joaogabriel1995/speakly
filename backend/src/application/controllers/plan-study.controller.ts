@@ -1,4 +1,4 @@
-import { IController, IRequest, IResponse } from "../interfaces/adapters/controler.interface";
+import { IController, IRequest, IResponse } from "../interfaces/adapters/controller.interface";
 import { LearningSettingsInputDto, LearningSettingsInputSchema } from "../schemas/learning-settings-input.schema";
 import { PlanStudyUseCase } from "../useCases/plan-study/study-plan.use-case";
 
