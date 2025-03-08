@@ -6,6 +6,8 @@ interface LearningSettingsEntityProps {
   duration: number
   daysWeek: number
   hourDay: number
+  userId: string
+
 }
 
 enum LearningSettingsErrors {
@@ -22,17 +24,19 @@ export class LearningSettingsEntity {
   private duration: number;
   private daysWeek: number;
   private hourDay: number;
+  private userId: string
 
   constructor(
-    { daysWeek, duration, hourDay, level }: Omit<LearningSettingsEntityProps, "id">,
+    { daysWeek, duration, hourDay, level, userId }: Omit<LearningSettingsEntityProps, "id">,
     id?: string
   ) {
-    this.validateProps({ daysWeek, duration, hourDay, level })
+    this.validateProps({ daysWeek, duration, hourDay, level, userId })
     this.id = id ?? uuid();
     this.level = level;
     this.duration = duration;
     this.daysWeek = daysWeek;
     this.hourDay = hourDay;
+    this.userId = userId
   }
 
 
@@ -62,6 +66,10 @@ export class LearningSettingsEntity {
   getHourDay(): number {
     return this.hourDay;
   }
+  getUserId(): string {
+    return this.userId;
+  }
+
 
 
   toJSON(): object {
