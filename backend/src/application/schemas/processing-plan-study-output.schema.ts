@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { LearningSettingsInputSchema } from './LearningSettingsInputSchema';
+import { LearningSettingsInputSchema } from './learning-settings-input.schema';
 
 // Schema de exemplo para mensagens da fila (pode ser movido para fora ou parametrizado)
 

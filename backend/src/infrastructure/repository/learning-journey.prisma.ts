@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client"
-import { LearningJourneyEntity } from "../../domain/entities/LearningJourney"
-import { ILearningJourneysRepository } from "../../domain/repository/ILearningJourneyRepository";
+import { LearningJourneyEntity } from "../../domain/entities/learning-journey.entity"
+import { ILearningJourneysRepository } from "../../domain/repository/learning-journey-repository.interface";
 
 export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
   constructor(private prisma: PrismaClient) { }

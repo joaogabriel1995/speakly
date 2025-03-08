@@ -1,4 +1,4 @@
-import { LearningJourneyEntity } from "../entities/LearningJourney";
+import { LearningJourneyEntity } from "../entities/learning-journey.entity";
 
 
 export interface ILearningJourneysRepository {

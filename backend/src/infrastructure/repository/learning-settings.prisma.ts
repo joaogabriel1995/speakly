@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client"
-import { LearningSettingsEntity } from "../../domain/entities/LearningSettings"
-import { ILearningSettingsRepository } from "../../domain/repository/ILearningSettingsRepository";
+import { LearningSettingsEntity } from "../../domain/entities/learning-settings.entity"
+import { ILearningSettingsRepository } from "../../domain/repository/learning-settings-repository.interface";
 
 export class LearningSettingsRepoPrisma implements ILearningSettingsRepository {
   constructor(private prisma: PrismaClient) { }

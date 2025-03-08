@@ -1,6 +1,6 @@
-import { Transcription } from "../../../domain/entities/Transcription";
-import { IMessageBroker } from "../../../infrastructure/messaging/IMessageBroker";
-import { LearningSettingsInputDto } from "../../schemas/LearningSettingsInputSchema";
+import { Transcription } from "../../../domain/entities/transcription.entity";
+import { IMessageBroker } from "../../../infrastructure/messaging/message-broker";
+import { LearningSettingsInputDto } from "../../schemas/learning-settings-input.schema";
 
 
 export class PlanStudyUseCase {

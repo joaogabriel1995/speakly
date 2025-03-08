@@ -1,6 +1,6 @@
-import { Transcription } from "../../../domain/entities/Transcription";
-import { ITranscriptionRepository } from "../../../domain/repository/ITranscriptionRepository";
-import { IMessageBroker } from "../../../infrastructure/messaging/IMessageBroker";
+import { Transcription } from "../../../domain/entities/transcription.entity";
+import { ITranscriptionRepository } from "../../../domain/repository/transcription-repository.interface";
+import { IMessageBroker } from "../../../infrastructure/messaging/message-broker";
 
 
 export class TranscriberUseCase {

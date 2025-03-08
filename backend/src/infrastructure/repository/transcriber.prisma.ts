@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client"
-import { ITranscriptionRepository } from "../../domain/repository/ITranscriptionRepository"
-import { Transcription } from "../../domain/entities/Transcription"
+import { ITranscriptionRepository } from "../../domain/repository/transcription-repository.interface"
+import { Transcription } from "../../domain/entities/transcription.entity"
 
 export class TranscriptionRepoPrisma implements ITranscriptionRepository {
   constructor(private prisma: PrismaClient) { }

@@ -1,5 +1,5 @@
 import { createClient, RedisClientType } from "redis";
-import { IMessageBroker } from "./IMessageBroker";
+import { IMessageBroker } from "./message-broker";
 
 export interface Message {
   content: object;

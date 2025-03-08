@@ -1,6 +1,6 @@
-import { IMediaMessageService } from "../../../domain/services/IMediaMessageService";
-import { IMessageBroker } from "../../../infrastructure/messaging/IMessageBroker";
-import { WebhookBodySchemaType } from "../../schemas/EvolutionWebhookSchema";
+import { IMediaMessageService } from "../../../domain/services/media-message-service";
+import { IMessageBroker } from "../../../infrastructure/messaging/message-broker";
+import { WebhookBodySchemaType } from "../../schemas/evolution-webhook.schema";
 
 
 export class HandleVoiceInputUseCase {

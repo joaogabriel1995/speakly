@@ -1,13 +1,13 @@
-import { CreateLearningSettingsUseCase } from "../../application/useCases/learningSettings/createLearningSettingsUseCase";
-import { ProcessPlanMessagesUseCase } from "../../application/useCases/messaging/ProcessingPlanStudyUseCase";
-import { ProcessTranscriptionMessagesUseCase } from "../../application/useCases/messaging/ProcessingTranscriptionUseCase";
-import { CreateManyLearningJourney } from "../../application/useCases/plan-study/CreateLearningJourney";
+import { CreateLearningSettingsUseCase } from "../../application/useCases/learningSettings/create-learning-settings.use-case";
+import { ProcessPlanMessagesUseCase } from "../../application/useCases/messaging/processing-plan-study.use-case";
+import { ProcessTranscriptionMessagesUseCase } from "../../application/useCases/messaging/processing-transcription.use-case";
+import { CreateManyLearningJourney } from "../../application/useCases/plan-study/create-learning-journey";
 import prisma from "../prisma/client";
-import { LearningJourneyRepoPrisma } from "../repository/learningJourneyPrisma";
-import { LearningSettingsRepoPrisma } from "../repository/learningSettingsPrisma";
-import { configService } from "../services/configService";
-import { RabbitMQBrokerAdvanced } from "./RabbitMQBroker";
-import { WebSocketBroker } from "./WebSocketServer";
+import { LearningJourneyRepoPrisma } from "../repository/learning-journey.prisma";
+import { LearningSettingsRepoPrisma } from "../repository/learning-settings.prisma";
+import { configService } from "../services/config.service";
+import { RabbitMQBrokerAdvanced } from "./rabbitmq-broker";
+import { WebSocketBroker } from "./web-socket-server";
 
 export async function startConsumer(): Promise<void> {
   try {

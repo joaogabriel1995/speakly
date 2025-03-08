@@ -1,6 +1,6 @@
-import { IController, IRequest, IResponse } from "../interfaces/adapters/IController";
-import { LearningSettingsInputDto, LearningSettingsInputSchema } from "../schemas/LearningSettingsInputSchema";
-import { PlanStudyUseCase } from "../useCases/plan-study/StudyPlan";
+import { IController, IRequest, IResponse } from "../interfaces/adapters/controler.interface";
+import { LearningSettingsInputDto, LearningSettingsInputSchema } from "../schemas/learning-settings-input.schema";
+import { PlanStudyUseCase } from "../useCases/plan-study/study-plan.use-case";
 
 
 

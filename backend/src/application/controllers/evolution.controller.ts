@@ -1,6 +1,6 @@
-import { IRequest, IResponse, IController } from '../interfaces/adapters/IController';
-import {  WebhookBodySchema, WebhookBodySchemaType } from '../schemas/EvolutionWebhookSchema';
-import { AppConversationOrchestratorUseCase } from '../useCases/chat/AppConversationOrchestratorUseCase';
+import { IRequest, IResponse, IController } from '../interfaces/adapters/controler.interface';
+import {  WebhookBodySchema, WebhookBodySchemaType } from '../schemas/evolution-webhook.schema';
+import { AppConversationOrchestratorUseCase } from '../useCases/chat/app-conversation-orchestrator.use-case';
 
 interface ChatResponse {
     id: string;

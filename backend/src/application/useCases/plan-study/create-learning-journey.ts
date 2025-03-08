@@ -1,6 +1,6 @@
-import { LearningJourneyEntity } from "../../../domain/entities/LearningJourney";
-import { ILearningJourneysRepository } from "../../../domain/repository/ILearningJourneyRepository";
-import { LearningJourneyInputDto } from "../../schemas/LearningJorneyInputSchema";
+import { LearningJourneyEntity } from "../../../domain/entities/learning-journey.entity";
+import { ILearningJourneysRepository } from "../../../domain/repository/learning-journey-repository.interface";
+import { LearningJourneyInputDto } from "../../schemas/learning-jorney-input.schema";
 
 export class CreateManyLearningJourney {
   constructor(private repository: ILearningJourneysRepository) { }

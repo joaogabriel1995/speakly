@@ -1,6 +1,6 @@
-import { IWebhookAdapter } from '../../application/interfaces/adapters/IWebhookAdapter';
-import { WebhookBodySchemaType } from '../../application/schemas/EvolutionWebhookSchema';
-import { Message, SenderType } from '../../domain/entities/Message';
+import { IWebhookAdapter } from '../../application/interfaces/adapters/webhook-adapter.interface';
+import { WebhookBodySchemaType } from '../../application/schemas/evolution-webhook.schema';
+import { Message, SenderType } from '../../domain/entities/message.entity';
 
 
 export class WhatsAppAdapter implements IWebhookAdapter<WebhookBodySchemaType> {

@@ -1,5 +1,5 @@
-import { EnvironmentConfig, EnvironmentSchema } from "../../application/schemas/EnvironmentSchema";
-import { EnvLoader, IEnvLoader } from "../config/EnvLoader";
+import { EnvironmentConfig, EnvironmentSchema } from "../../application/schemas/environment.schema";
+import { EnvLoader, IEnvLoader } from "../config/env-loader";
 
 
 export class ConfigService {

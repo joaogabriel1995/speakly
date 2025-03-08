@@ -1,5 +1,5 @@
 import WebSocket, { WebSocketServer } from 'ws';
-import { IMessageBroker } from './IMessageBroker';
+import { IMessageBroker } from './message-broker';
 
 export interface MessageBroker {
   content: object;

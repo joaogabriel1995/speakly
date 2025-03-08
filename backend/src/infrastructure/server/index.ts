@@ -1,9 +1,9 @@
 // server/index.ts
 import express from 'express';
-import { configService } from '../services/configService'; // Ajuste o caminho
-import { router } from './Router';
+import { configService } from '../services/config.service'; // Ajuste o caminho
+import { router } from './router';
 import cors from "cors";
-import { WebSocketBroker } from '../messaging/WebSocketServer';
+import { WebSocketBroker } from '../messaging/web-socket-server';
 
 const app = express();
 

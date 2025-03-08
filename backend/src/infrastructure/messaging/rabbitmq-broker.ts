@@ -1,5 +1,5 @@
 import amqp, { Connection, Channel, Message, Options } from 'amqplib';
-import { IMessageBroker } from './IMessageBroker';
+import { IMessageBroker } from './message-broker';
 
 export class RabbitMQBrokerAdvanced implements IMessageBroker<Message, Options.Publish> {
   private static instance: RabbitMQBrokerAdvanced | null = null;

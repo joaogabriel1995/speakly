@@ -1,35 +1,41 @@
 // src/application/useCases/messaging/ProcessQueueMessagesUseCase.ts
 import { z } from 'zod';
-import { IMessageBroker } from '../../../infrastructure/messaging/IMessageBroker';
+import { IMessageBroker } from '../../../infrastructure/messaging/message-broker';
+import { PlanStudyOutputSchema } from '../../schemas/processing-plan-study-output.schema';
+import { LearningJourneyInput } from '../../schemas/learning-jorney-input.schema';
+import { CreateManyLearningJourney } from '../plan-study/create-learning-journey';
+import { CreateLearningSettingsUseCase } from '../learningSettings/create-learning-settings.use-case';
 
 // Schema de exemplo para mensagens da fila (pode ser movido para fora ou parametrizado)
-const queueMessageSchema = z.object({
-  url: z.string(),
-  language: z.string().nullable(),
-  status: z.string(),
-  userId: z.string(),
-  trasncriberType: z.string(),
-  text: z.string(),
-});
-type QueueMessage = z.infer<typeof queueMessageSchema>;
 
-export class ProcessTranscriptionMessagesUseCase<TMessage> {
+// Definindo o schema para uma única entrada do plano
+
+export class ProcessPlanMessagesUseCase<TMessage> {
   constructor(
     private readonly messageBroker: IMessageBroker<TMessage>,// TMessage é genérico,
-    private readonly wsBroker: IMessageBroker<TMessage> // TMessage é genérico,
-
+    private readonly wsBroker: IMessageBroker<TMessage>,// TMessage é genérico,
+    private readonly createManyLearningJourney: CreateManyLearningJourney,
+    private readonly createLearningSettingsUseCase: CreateLearningSettingsUseCase
   ) { }
 
   private async onMessage(message: TMessage) {
-
+    console.log(message)
 
     const data = this.extractContent(message);
     try {
-      const transcriptionData = queueMessageSchema.parse(data);
-      console.log('Mensagem validada:', transcriptionData);
+
+      const planStudyData = PlanStudyOutputSchema.parse(data);
+      console.log('Mensagem validada:', planStudyData);
       if (this.messageBroker.ack) {
-        await this.wsBroker.publish(`${transcriptionData.userId}/transcription`, { ...transcriptionData });
-        await this.wsBroker.publish(`${transcriptionData.userId}/alert`, { text: "Transcrição Concluida" });
+
+        const {settings, ...rest} = planStudyData
+        const learningSetting = await this.createLearningSettingsUseCase.execute(settings)
+        console.log(learningSetting)
+        const learningInput = LearningJourneyInput.parse({ "learningSettingsId": learningSetting.getId(), ...rest });
+
+        await this.createManyLearningJourney.execute(learningInput)
+        await this.wsBroker.publish(`${planStudyData.userId}/planStudy`, planStudyData);
+        await this.wsBroker.publish(`${planStudyData.userId}/alert`, { text: "Plano de Estudos Concluida" });
         await this.messageBroker.ack(message);
       }
     } catch (error) {
@@ -52,7 +58,7 @@ export class ProcessTranscriptionMessagesUseCase<TMessage> {
         await this.messageBroker.ack(message);
       }
       await this.messageBroker.publish(
-        'transcription-queue',
+        "agent-plan-study",
         this.extractContent(message),
         { headers: { attempts } }
       );
