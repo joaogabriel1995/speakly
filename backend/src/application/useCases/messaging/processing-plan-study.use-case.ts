@@ -1,9 +1,9 @@
 // src/application/useCases/messaging/ProcessQueueMessagesUseCase.ts
 import { z } from 'zod';
 import { IMessageBroker } from '../../../infrastructure/messaging/message-broker';
-import { PlanStudyOutputSchema } from '../../schemas/processing-plan-study-output.schema';
+import { PlanEntryDto, PlanStudyOutputSchema } from '../../schemas/processing-plan-study-output.schema';
 import { LearningJourneyInput } from '../../schemas/learning-jorney-input.schema';
-import { CreateManyLearningJourney } from '../plan-study/create-learning-journey';
+import { CreateManyLearningJourney } from '../plan-study/create-learning-journey.use-case';
 import { CreateLearningSettingsUseCase } from '../learningSettings/create-learning-settings.use-case';
 
 // Schema de exemplo para mensagens da fila (pode ser movido para fora ou parametrizado)
@@ -21,14 +21,20 @@ export class ProcessPlanMessagesUseCase<TMessage> {
   private async onMessage(message: TMessage) {
     console.log(message)
 
-    const data = this.extractContent(message);
-    try {
+    const data = this.extractContent(message) as PlanEntryDto
 
-      const planStudyData = PlanStudyOutputSchema.parse(data);
+    data.settings.userId = data.userId
+
+    try {
+      const planStudyData = PlanStudyOutputSchema.parse({
+        plan: data.plan,
+        userId: data.userId,
+        settings: data.settings,
+      });
       console.log('Mensagem validada:', planStudyData);
       if (this.messageBroker.ack) {
 
-        const {settings, ...rest} = planStudyData
+        const { settings, ...rest } = planStudyData
         const learningSetting = await this.createLearningSettingsUseCase.execute(settings)
         console.log(learningSetting)
         const learningInput = LearningJourneyInput.parse({ "learningSettingsId": learningSetting.getId(), ...rest });
