@@ -9,18 +9,25 @@ import {
 } from "../schemas/transcription.schema";
 import { TranscriberUseCase } from "../useCases/transcriber/transcriber.use-case";
 
+// Interface para tipar o corpo da resposta
+interface TranscriberResponseDto {
+  message: string;
+}
+
 export class TranscriberController
-  implements IController<TransctiptionUseCaseDto, void>
+  implements IController<TransctiptionUseCaseDto, TranscriberResponseDto>
 {
   constructor(private readonly transcriberUseCase: TranscriberUseCase) {}
+
   async handle(
     request: IRequest<TransctiptionUseCaseDto>,
-  ): Promise<IResponse<void>> {
+  ): Promise<IResponse<TranscriberResponseDto>> {
     const body = TransctiptionSchema.parse(request.body);
 
     await this.transcriberUseCase.execute(body.url);
+
     return {
-      body: null,
+      body: { message: "Transcription started successfully" },
       statusCode: 200,
     };
   }
