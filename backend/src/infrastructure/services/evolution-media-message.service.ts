@@ -1,6 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import { IMediaMessageService } from "../../domain/services/media-message-service";
-import { MediaMessageResponseDTO, mediaMessageResponseSchema } from "../../application/schemas/media-message.schemas";
+import { MediaMessageResponseDTO, mediaMessageResponseSchema } from "../../application/schemas/media-message.schema";
 
 export class EvolutionMediaMessageService implements IMediaMessageService {
   private readonly client: AxiosInstance;
