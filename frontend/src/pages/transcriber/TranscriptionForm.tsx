@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { transcriptionService } from "../../services/transcriptionService";
+import { transcriptionService } from "../../services/transcription.service";
 import {
   Box,
   Button,
