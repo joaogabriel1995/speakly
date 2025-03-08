@@ -10,18 +10,17 @@ import {
 import { PlanStudyUseCase } from "../useCases/plan-study/study-plan.use-case";
 
 export class PlanStudyController
-  implements IController<LearningSettingsInputDto, void>
-{
-  constructor(private readonly planStudyUseCase: PlanStudyUseCase) {}
+  implements IController<LearningSettingsInputDto, { message: string }> {
+  constructor(private readonly planStudyUseCase: PlanStudyUseCase) { }
   async handle(
     request: IRequest<LearningSettingsInputDto>,
-  ): Promise<IResponse<void>> {
+  ): Promise<IResponse<{ message: string }>> {
     console.log(request.body);
     const body = LearningSettingsInputSchema.parse(request.body);
 
     await this.planStudyUseCase.execute(body);
     return {
-      body: null,
+      body: { message: "Plan study processing started successfully" },
       statusCode: 200,
     };
   }
