@@ -21,7 +21,7 @@ import ContentPasteIcon from "@mui/icons-material/ContentPaste";
 import MicIcon from "@mui/icons-material/Mic";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import ClearIcon from "@mui/icons-material/Clear";
-import { planStudyService } from "../../services/planStudyService";
+import { planStudyService } from "../../services/plan-study.service";
 
 const PlanStudyForm: React.FC = () => {
   // Estado para os inputs do formulário
@@ -30,6 +30,7 @@ const PlanStudyForm: React.FC = () => {
     duration: "",
     daysWeek: "",
     hourDay: "",
+    userId: ""
   });
 
   // Estados para controle de UI
@@ -64,6 +65,7 @@ const PlanStudyForm: React.FC = () => {
         Number(formData.duration),
         Number(formData.daysWeek),
         Number(formData.hourDay),
+        "ee062683-856d-452e-85e5-3cd0390f7d21"
       );
 
       console.log("Plano gerado:", response);
