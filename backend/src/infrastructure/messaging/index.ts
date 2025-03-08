@@ -1,7 +1,7 @@
 import { CreateLearningSettingsUseCase } from "../../application/useCases/learningSettings/create-learning-settings.use-case";
 import { ProcessPlanMessagesUseCase } from "../../application/useCases/messaging/processing-plan-study.use-case";
 import { ProcessTranscriptionMessagesUseCase } from "../../application/useCases/messaging/processing-transcription.use-case";
-import { CreateManyLearningJourney } from "../../application/useCases/plan-study/create-learning-journey";
+import { CreateManyLearningJourney } from "../../application/useCases/plan-study/create-learning-journey.use-case";
 import prisma from "../prisma/client";
 import { LearningJourneyRepoPrisma } from "../repository/learning-journey.prisma";
 import { LearningSettingsRepoPrisma } from "../repository/learning-settings.prisma";
