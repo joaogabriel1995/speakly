@@ -4,16 +4,16 @@ import { ILearningJourneysRepository } from "../../domain/repository/learning-jo
 
 export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
   constructor(private prisma: PrismaClient) { }
-  async create(learningSetting: LearningJourneyEntity): Promise<void> {
+  async create(LearningJourney: LearningJourneyEntity): Promise<void> {
     const data: Prisma.LearningJourneyCreateInput = {
-      activity: learningSetting.getActivity(),
-      month: learningSetting.getMonth(),
-      objective: learningSetting.getObjective(),
-      theory: learningSetting.getTheory(),
-      week: learningSetting.getWeek(),
-      id: learningSetting.getId(),
-      user: {connect: {id: learningSetting.getUserId()}},
-      learningSettings: {connect: {id: learningSetting.getLearningJourneyId()}}
+      activity: LearningJourney.getActivity(),
+      month: LearningJourney.getMonth(),
+      objective: LearningJourney.getObjective(),
+      theory: LearningJourney.getTheory(),
+      week: LearningJourney.getWeek(),
+      id: LearningJourney.getId(),
+      user: {connect: {id: LearningJourney.getUserId()}},
+      learningSettings: {connect: {id: LearningJourney.getLearningJourneyId()}}
 
     };
     await this.prisma.learningJourney.create({ data });
