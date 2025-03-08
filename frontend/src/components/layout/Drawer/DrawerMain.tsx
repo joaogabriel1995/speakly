@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { CustomList, ICustomListProps } from "./CustonListIcon";
+import { CustomList, ICustomListProps } from "./CustomListIcon";
 import { Home, LibraryBooks, PostAdd, Transcribe } from "@mui/icons-material";
 import { NavigateFunction, useNavigate } from "react-router-dom";
 
