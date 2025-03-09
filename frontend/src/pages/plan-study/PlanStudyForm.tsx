@@ -57,7 +57,7 @@ const PlanStudyForm: React.FC = () => {
     setLoading(true);
     setError(null);
     setSuccess(false);
-
+    const userId = "ee062683-856d-452e-85e5-3cd0390f7d21"
     try {
       // Ajuste conforme a implementação real do transcriptionService
       const response = await planStudyService.plan(
@@ -65,7 +65,7 @@ const PlanStudyForm: React.FC = () => {
         Number(formData.duration),
         Number(formData.daysWeek),
         Number(formData.hourDay),
-        "ee062683-856d-452e-85e5-3cd0390f7d21"
+        userId
       );
 
       console.log("Plano gerado:", response);
@@ -89,7 +89,6 @@ const PlanStudyForm: React.FC = () => {
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-          {/* Campo Nível (Select) */}
           <FormControl fullWidth margin="normal" required>
             <InputLabel id="level-label">Nível Atual</InputLabel>
             <Select
