@@ -15,5 +15,4 @@ router.use("/study", studyRouter);
 router.use("/learning-settings", listLearningSettingsRouter);
 router.use("/learning-journey", getLearningJourneyByIdRouter);
 
-
 export { router };

@@ -4,7 +4,6 @@ import { container } from "../container";
 const router = Router();
 
 router.post("/", async (request, response) => {
-
   const result = await container.listLearningSettingsController.handle({
     body: request.body,
     method: request.method,

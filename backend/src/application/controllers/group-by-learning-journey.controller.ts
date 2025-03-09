@@ -10,14 +10,15 @@ import { GroupBySettingLearningJourneyByIdUseCase } from "../useCases/learningJo
 export class GetLearningJourneyByIdController implements IController {
   constructor(
     private readonly getLearningJourneyByIdUseCase: GroupBySettingLearningJourneyByIdUseCase,
-  ) { }
+  ) {}
 
   async handle(request: IRequest<unknown>): Promise<IResponse<unknown>> {
     try {
       // Os parâmetros chegam em `request.params`
-      const input = GetLearningJourneyByIdInput.parse(request.params );
+      const input = GetLearningJourneyByIdInput.parse(request.params);
 
-      const learningJourney = await this.getLearningJourneyByIdUseCase.execute(input);
+      const learningJourney =
+        await this.getLearningJourneyByIdUseCase.execute(input);
 
       return {
         body: learningJourney,

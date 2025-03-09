@@ -45,7 +45,6 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
       this.wss = new WebSocketServer({ host: this.host, port: this.port });
 
       this.wss.on("connection", (ws: WebSocket) => {
-
         ws.on("message", (data: string) => {
           try {
             const parsed = JSON.parse(data);

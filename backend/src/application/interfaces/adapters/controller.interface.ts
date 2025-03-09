@@ -3,7 +3,7 @@ export interface IRequest<T = unknown> {
   method: "GET" | "POST" | "PUT" | "DELETE" | string;
   headers?: Record<string, any>;
   body: T;
-  params?: any
+  params?: any;
 }
 
 /** Representa uma resposta HTTP retornada */

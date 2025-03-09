@@ -6,4 +6,6 @@ export const GetLearningJourneyByIdInput = z.object({
 });
 
 // A DTO que será utilizada pelo UseCase
-export type GetLearningJourneyByIdInputDto = z.infer<typeof GetLearningJourneyByIdInput>;
+export type GetLearningJourneyByIdInputDto = z.infer<
+  typeof GetLearningJourneyByIdInput
+>;

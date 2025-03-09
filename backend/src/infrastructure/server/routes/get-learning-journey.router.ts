@@ -8,7 +8,7 @@ router.get("/:id", async (request, response) => {
     body: request.body,
     method: request.method,
     headers: request.headers,
-    params: request.params
+    params: request.params,
   });
   response.status(result.statusCode).json(result.body);
 });

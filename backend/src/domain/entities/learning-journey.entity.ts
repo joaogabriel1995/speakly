@@ -39,7 +39,7 @@ export class LearningJourneyEntity {
       month,
       theory,
       userId,
-      learningSettingsId
+      learningSettingsId,
     }: Omit<LearningJourneyEntityProps, "id">,
     id?: string,
   ) {
@@ -121,7 +121,7 @@ export class LearningJourneyEntity {
       month: this.month,
       theory: this.theory,
       userId: this.userId,
-      learningSettingsId: this.learningSettingsId
+      learningSettingsId: this.learningSettingsId,
     };
   }
 }

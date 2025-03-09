@@ -3,7 +3,7 @@ import { LearningJourneyEntity } from "../../domain/entities/learning-journey.en
 import { ILearningJourneysRepository } from "../../domain/repository/learning-journey-repository.interface";
 
 export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
-  constructor(private prisma: PrismaClient) { }
+  constructor(private prisma: PrismaClient) {}
   async create(LearningJourney: LearningJourneyEntity): Promise<void> {
     const data: Prisma.LearningJourneyCreateInput = {
       activity: LearningJourney.getActivity(),
@@ -35,20 +35,17 @@ export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
     });
     await this.prisma.learningJourney.createMany({ data });
   }
-  async findBySettingsId(learningSettingId: string): Promise<LearningJourneyEntity[] | []> {
+  async findBySettingsId(
+    learningSettingId: string,
+  ): Promise<LearningJourneyEntity[] | []> {
     const learningJourney = await this.prisma.learningJourney.findMany({
-      where: { learningSettings: { id: learningSettingId } }
-    })
+      where: { learningSettings: { id: learningSettingId } },
+    });
 
     const response = learningJourney.map((learning) => {
-
-      const {
-        updatedAt, createdAt, id, ...rest
-      } = learning
-      return new LearningJourneyEntity(
-        rest, id
-      )
-    })
-    return response
+      const { updatedAt, createdAt, id, ...rest } = learning;
+      return new LearningJourneyEntity(rest, id);
+    });
+    return response;
   }
 }
