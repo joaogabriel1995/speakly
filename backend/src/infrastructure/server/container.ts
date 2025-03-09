@@ -15,6 +15,10 @@ import { ListLearningSettingsController } from '../../application/controllers/li
 import { ListLearningSettingsByUserUseCase } from '../../application/useCases/learningSettings/list-learning-settings-by-user.use-case';
 import { LearningSettingsRepoPrisma } from '../repository/learning-settings.prisma';
 import { ILearningSettingsRepository } from '../../domain/repository/learning-settings-repository.interface';
+import { ILearningJourneysRepository } from '../../domain/repository/learning-journey-repository.interface';
+import { GroupBySettingLearningJourneyByIdUseCase } from '../../application/useCases/learningJourney/get-learning-journey.use-case';
+import { GetLearningJourneyByIdController } from '../../application/controllers/group-by-learning-journey.controller';
+import { LearningJourneyRepoPrisma } from '../repository/learning-journey.prisma';
 
 
 export class Container {
@@ -36,6 +40,10 @@ export class Container {
   private _listLearningSettingsController: ListLearningSettingsController
   private _learningSettingsRepository: ILearningSettingsRepository
 
+  private _learningJourneysRepository: ILearningJourneysRepository
+  private _getLearningJourneyByIdUseCase: GroupBySettingLearningJourneyByIdUseCase
+  private _getLearningJourneyByIdController: GetLearningJourneyByIdController
+
 
   private constructor() {
     this._prismaClient = new PrismaClient();
@@ -55,16 +63,23 @@ export class Container {
       this._handleVoiceInputUseCase,
       this._whatsAppAdapter,
     );
+    this._evolutionController = new EvolutionController(this._appConversationOrchestratorUseCase);
+
 
     this._listLearningSettingsByUser = new ListLearningSettingsByUserUseCase(this._learningSettingsRepository)
     this._listLearningSettingsController = new ListLearningSettingsController(
       this._listLearningSettingsByUser
     )
-    this._evolutionController = new EvolutionController(this._appConversationOrchestratorUseCase);
+
     this._transcriberUseCase = new TranscriberUseCase(this._rabbitMQBroker, this._transcriptionRepo);
     this._transcriberController = new TranscriberController(this._transcriberUseCase);
+
     this._planStudyUseCase = new PlanStudyUseCase(this._rabbitMQBroker);
     this._planStudyController = new PlanStudyController(this._planStudyUseCase);
+
+    this._learningJourneysRepository = new LearningJourneyRepoPrisma(this._prismaClient)
+    this._getLearningJourneyByIdUseCase = new GroupBySettingLearningJourneyByIdUseCase(this._learningJourneysRepository)
+    this._getLearningJourneyByIdController = new GetLearningJourneyByIdController(this._getLearningJourneyByIdUseCase)
   }
 
   public static getInstance(): Container {
@@ -91,6 +106,10 @@ export class Container {
 
   public get planStudyController(): PlanStudyController {
     return this._planStudyController;
+  }
+
+  public get getLearningJourneyByIdController(): GetLearningJourneyByIdController {
+    return this._getLearningJourneyByIdController;
   }
 
   public async dispose(): Promise<void> {
