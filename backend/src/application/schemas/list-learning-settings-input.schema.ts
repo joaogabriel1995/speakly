@@ -4,6 +4,6 @@ export const ListLearningSettingsInputSchema = z.object({
   userId: z.string(),
 });
 
-export type ListLearningSettingsInputtDto = z.infer<
+export type ListLearningSettingsInputDto = z.infer<
   typeof ListLearningSettingsInputSchema
 >;
