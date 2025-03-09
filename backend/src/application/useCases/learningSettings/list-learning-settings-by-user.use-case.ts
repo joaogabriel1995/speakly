@@ -8,7 +8,7 @@ class ListLearningSettingsError extends Error {
   }
 }
 
-export class ListLearningSettingsByUser {
+export class ListLearningSettingsByUserUseCase {
   constructor(
     private learningSettingsRepository: ILearningSettingsRepository,
   ) {}
