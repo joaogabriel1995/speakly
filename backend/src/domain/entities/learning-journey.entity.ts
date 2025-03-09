@@ -8,7 +8,7 @@ interface LearningJourneyEntityProps {
   month: number;
   theory: string;
   userId: string;
-  learningJourneyId: string;
+  learningSettingsId: string;
 }
 
 enum LearningJourneyErrors {
@@ -29,7 +29,7 @@ export class LearningJourneyEntity {
   private month: number;
   private theory: string;
   private userId: string;
-  private learningJourneyId: string;
+  private learningSettingsId: string;
 
   constructor(
     {
@@ -39,7 +39,7 @@ export class LearningJourneyEntity {
       month,
       theory,
       userId,
-      learningJourneyId,
+      learningSettingsId
     }: Omit<LearningJourneyEntityProps, "id">,
     id?: string,
   ) {
@@ -50,7 +50,7 @@ export class LearningJourneyEntity {
       month,
       theory,
       userId,
-      learningJourneyId,
+      learningSettingsId,
     });
     this.id = id ?? uuid();
     this.objective = objective;
@@ -59,7 +59,7 @@ export class LearningJourneyEntity {
     this.month = month;
     this.theory = theory;
     this.userId = userId;
-    this.learningJourneyId = learningJourneyId;
+    this.learningSettingsId = learningSettingsId;
   }
 
   private validateProps(props: Omit<LearningJourneyEntityProps, "id">): void {
@@ -71,7 +71,7 @@ export class LearningJourneyEntity {
     if (!props.month) throw new Error(LearningJourneyErrors.MONTH_REQUIRED);
     if (!props.theory) throw new Error(LearningJourneyErrors.THEORY_REQUIRED);
     if (!props.userId) throw new Error(LearningJourneyErrors.USER_ID_REQUIRED);
-    if (!props.learningJourneyId)
+    if (!props.learningSettingsId)
       throw new Error(LearningJourneyErrors.LEARNING_SETTINGS_ID_REQUIRED);
   }
 
@@ -104,7 +104,7 @@ export class LearningJourneyEntity {
   }
 
   getLearningJourneyId(): string {
-    return this.learningJourneyId;
+    return this.learningSettingsId;
   }
 
   setObjective(objective: string): void {
@@ -121,6 +121,7 @@ export class LearningJourneyEntity {
       month: this.month,
       theory: this.theory,
       userId: this.userId,
+      learningSettingsId: this.learningSettingsId
     };
   }
 }
