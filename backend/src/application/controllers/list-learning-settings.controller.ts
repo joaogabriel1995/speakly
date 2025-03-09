@@ -1,18 +1,19 @@
+import { LearningSettingsEntity } from "../../domain/entities/learning-settings.entity";
 import {
   IController,
   IRequest,
   IResponse,
 } from "../interfaces/adapters/controller.interface";
 import { LearningSettingsInputSchema } from "../schemas/learning-settings-input.schema";
-import { ListLearningSettingsInputSchema } from "../schemas/list-learning-settings-input.schema";
-import { ListLearningSettingsByUser } from "../useCases/learningSettings/list-learning-settings-by-user.use-case";
+import { ListLearningSettingsInputDto, ListLearningSettingsInputSchema } from "../schemas/list-learning-settings-input.schema";
+import { ListLearningSettingsByUserUseCase } from "../useCases/learningSettings/list-learning-settings-by-user.use-case";
 
-export class ListLearningSettingsController implements IController {
+export class ListLearningSettingsController implements IController<ListLearningSettingsInputDto, LearningSettingsEntity[]> {
   constructor(
-    private readonly listLearningSettingsByUser: ListLearningSettingsByUser,
-  ) {}
+    private readonly listLearningSettingsByUser: ListLearningSettingsByUserUseCase,
+  ) { }
 
-  async handle(request: IRequest<unknown>): Promise<IResponse<unknown>> {
+  async handle(request: IRequest<ListLearningSettingsInputDto>): Promise<IResponse<LearningSettingsEntity[]>> {
     console.log(request.body);
     const body = ListLearningSettingsInputSchema.parse(request.body);
 
