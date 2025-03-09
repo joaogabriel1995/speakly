@@ -43,10 +43,11 @@ export class LearningSettingsRepoPrisma implements ILearningSettingsRepository {
         userId: true,
       },
     });
-
-    const settingsEntities = settingsFromDb.map(
-      (setting) => new LearningSettingsEntity(setting),
-    );
+    const {} = settingsFromDb;
+    const settingsEntities = settingsFromDb.map((setting) => {
+      const { id, ...rest } = setting;
+      return new LearningSettingsEntity(rest, id);
+    });
 
     return settingsEntities;
   }
