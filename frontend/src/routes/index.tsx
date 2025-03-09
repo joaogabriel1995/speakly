@@ -11,11 +11,10 @@ export const AppRoutes = () => {
   return (
     <Routes>
       <Route path={pathRoutes.TRANSCRIPTION} element={<Transcriber></Transcriber>}></Route>
-      <Route path={pathRoutes.STUDY_PLAN_DETAILS} element={<PlanStudyPage></PlanStudyPage>}></Route>
-      <Route path={pathRoutes.STUDY_PLAN_GENERATE} element={<MyStudyPlans />}></Route>
-      <Route path={pathRoutes.STUDY_PLAN_LIST} element={<p>ASDASDASDASDASDASDASDASDSADASD </p>}></Route>
-      <Route path={pathRoutes.HOME}element={<Content title="Página Inicial"> ASIDJAOISDJOIASJD </Content>}></Route>
-
+      <Route path={pathRoutes.STUDY_PLAN_GENERATE} element={<PlanStudyPage></PlanStudyPage>}></Route>
+      <Route path={pathRoutes.STUDY_PLAN_LIST} element={<MyStudyPlans />}></Route>
+      <Route path={pathRoutes.STUDY_PLAN_DETAILS} element={<p>ASDASDASDASDASDASDASDASDSADASD </p>}></Route>
+      <Route path={pathRoutes.HOME} element={<Content title="Página Inicial"> ASIDJAOISDJOIASJD </Content>}></Route>
     </Routes>
   )
 }
