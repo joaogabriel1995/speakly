@@ -10,8 +10,9 @@ import {
 import { PlanStudyUseCase } from "../useCases/plan-study/study-plan.use-case";
 
 export class PlanStudyController
-  implements IController<LearningSettingsInputDto, { message: string }> {
-  constructor(private readonly planStudyUseCase: PlanStudyUseCase) { }
+  implements IController<LearningSettingsInputDto, { message: string }>
+{
+  constructor(private readonly planStudyUseCase: PlanStudyUseCase) {}
   async handle(
     request: IRequest<LearningSettingsInputDto>,
   ): Promise<IResponse<{ message: string }>> {
