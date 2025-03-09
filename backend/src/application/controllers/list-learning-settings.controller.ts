@@ -14,7 +14,6 @@ export class ListLearningSettingsController implements IController<ListLearningS
   ) { }
 
   async handle(request: IRequest<ListLearningSettingsInputDto>): Promise<IResponse<LearningSettingsEntity[]>> {
-    console.log(request.body);
     const body = ListLearningSettingsInputSchema.parse(request.body);
 
     const listSettings = await this.listLearningSettingsByUser.execute(

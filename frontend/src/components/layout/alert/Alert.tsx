@@ -12,19 +12,27 @@ export const AlertComponent: React.FC = () => {
   const [transcriptionText, setTranscriptionText] = useState<string | null>(null);
   const queue = "ee062683-856d-452e-85e5-3cd0390f7d21/alert"
 
+  const [to, setTo] = useState<string>("")
 
   const navigate = useNavigate();
 
   const handleClick = (navigate: NavigateFunction, to: string) => {
     navigate(to);
+    setAlertOpen(false)
   };
 
+  const onClose = () => {
+    setAlertOpen(false)
+    setTranscriptionText(null); // Exibe o texto após o delay
+
+  }
 
 
   useEffect(() => {
     if (lastMessages[queue]) {
       setTranscriptionText(lastMessages[queue]["text"]); // Exibe o texto após o delay
       setAlertOpen(true)
+      setTo(lastMessages[queue]["path"])
     }
 
   }, [lastMessages]);
@@ -38,13 +46,13 @@ export const AlertComponent: React.FC = () => {
       zIndex={1300} // Acima de outros elementos
       width={300} // Largura fixa do alerta
       component={"a"}
-      onClick={() => handleClick(navigate, "/study-plan/list")}
+      onClick={() => handleClick(navigate, to)}
     >
 
       <Slide direction="left" in={alertOpen} mountOnEnter unmountOnExit>
         <Alert
           severity="success"
-          onClose={() => setAlertOpen(false)}
+          onClose={onClose}
           sx={{ mb: 2 }}
         >
           <AlertTitle

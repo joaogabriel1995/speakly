@@ -45,7 +45,6 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
       this.wss = new WebSocketServer({ host: this.host, port: this.port });
 
       this.wss.on("connection", (ws: WebSocket) => {
-        console.log("Novo cliente conectado!");
 
         ws.on("message", (data: string) => {
           try {
@@ -57,13 +56,11 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
                 this.clients.set(userId, new Map());
               }
               this.clients.get(userId)!.set(topic, ws);
-              console.log(`Cliente registrado em ${parsed.queue}`);
             } else {
               // Mensagem normal, processar subscrições
               this.handleMessage(ws, data);
             }
           } catch (error) {
-            console.error("Erro ao processar mensagem do cliente:", error);
             this.handleError(ws, data, error);
           }
         });
@@ -73,13 +70,11 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
         });
 
         ws.on("error", (error) => {
-          console.error("Erro no WebSocket:", error);
           this.removeClient(ws);
         });
       });
 
       this.isInitialized = true;
-      console.log(`WebSocketBroker iniciado em ${this.host}:${this.port}`);
     } catch (error) {
       throw new Error(`Failed to initialize WebSocket server: ${error}`);
     }
@@ -99,9 +94,7 @@ export class WebSocketBroker implements IMessageBroker<MessageBroker> {
 
       if (ws && ws.readyState === WebSocket.OPEN) {
         ws.send(messageString);
-        console.log(`Mensagem enviada para ${queue}`);
       } else {
-        console.warn(`Nenhum cliente ativo para ${queue}`);
       }
     } catch (error) {
       throw new Error(`Failed to publish message to ${queue}: ${error}`);

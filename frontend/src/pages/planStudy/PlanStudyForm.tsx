@@ -68,7 +68,6 @@ const PlanStudyForm: React.FC = () => {
         userId
       );
 
-      console.log("Plano gerado:", response);
       setSuccess(true);
     } catch (err) {
       setError("Erro ao gerar o plano. Tente novamente.");

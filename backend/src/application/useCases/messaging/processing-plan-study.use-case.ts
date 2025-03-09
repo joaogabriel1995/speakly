@@ -32,12 +32,10 @@ export class ProcessPlanMessagesUseCase<TMessage> {
         userId: data.userId,
         settings: data.settings,
       });
-      console.log("Mensagem validada:", planStudyData);
       if (this.messageBroker.ack) {
         const { settings, ...rest } = planStudyData;
         const learningSetting =
           await this.createLearningSettingsUseCase.execute(settings);
-        console.log(learningSetting);
         const learningInput = LearningJourneyInput.parse({
           learningSettingsId: learningSetting.getId(),
           ...rest,
@@ -50,6 +48,7 @@ export class ProcessPlanMessagesUseCase<TMessage> {
         );
         await this.wsBroker.publish(`${planStudyData.userId}/alert`, {
           text: "Plano de Estudos Concluida",
+          path: `/learning_journey/${learningSetting.getId()}`,
         });
         await this.messageBroker.ack(message);
       }

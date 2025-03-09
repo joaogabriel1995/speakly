@@ -3,7 +3,7 @@ import { container } from "../container";
 
 const router = Router();
 
-router.post("/study", async (request, response) => {
+router.post("/", async (request, response) => {
   const result = await container.planStudyController.handle({
     body: request.body,
     method: request.method,

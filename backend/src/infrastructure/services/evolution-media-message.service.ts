@@ -25,9 +25,6 @@ export class EvolutionMediaMessageService implements IMediaMessageService {
     if (!instance?.trim()) {
       throw new Error("Instance ID cannot be empty");
     }
-    console.log(`instance: ${instance}`);
-    console.log(`messageID: ${messageID}`);
-    console.log(`apikey: ${apikey}`);
     try {
       const response = await this.client.post<string>(
         `/chat/getBase64FromMediaMessage/${instance}`,

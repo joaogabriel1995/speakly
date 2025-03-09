@@ -19,20 +19,16 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       'ee062683-856d-452e-85e5-3cd0390f7d21/planStudy',
 
     ];
-    console.log('Iniciando conexão WebSocket...');
     const websocket = new WebSocket('ws://localhost:8091');
 
     websocket.onopen = () => {
-      console.log('Conexão WebSocket aberta com sucesso!');
       queues.forEach((queue) => {
         websocket.send(JSON.stringify({ queue }));
       });
-      console.log('Mensagem com queues enviada:', queues);
     };
 
     websocket.onmessage = (event) => {
       const data = JSON.parse(event.data);
-      console.log('Mensagem recebida do servidor:', data);
 
       if (data.queue && data.content) {
         setLastMessages((prev) => ({
@@ -47,18 +43,15 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
 
     websocket.onclose = () => {
-      console.log('Conexão WebSocket fechada');
       setWs(null);
       setLastMessages({});
     };
 
     setWs(websocket);
-    console.log('WebSocket configurado, aguardando conexão...');
 
     return () => {
       if (websocket.readyState === WebSocket.OPEN) {
         websocket.close();
-        console.log('Conexão WebSocket encerrada pelo cleanup');
       }
     };
   }, []);

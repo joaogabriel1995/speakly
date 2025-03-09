@@ -7,7 +7,6 @@ export class HandleChatInputUseCase {
     if (!message.getText || !message.getSender) {
       throw new Error("Mensagem inválida");
     }
-    console.log(`Processando mensagem: ${message.getText()}`);
     // await this.repository.save(message);/
   }
 }

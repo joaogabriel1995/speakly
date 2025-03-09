@@ -15,7 +15,6 @@ export class GetLearningJourneyByIdController implements IController {
   async handle(request: IRequest<unknown>): Promise<IResponse<unknown>> {
     try {
       // Os parâmetros chegam em `request.params`
-      console.log(request.params)
       const input = GetLearningJourneyByIdInput.parse(request.params );
 
       const learningJourney = await this.getLearningJourneyByIdUseCase.execute(input);
@@ -25,7 +24,6 @@ export class GetLearningJourneyByIdController implements IController {
         statusCode: 200,
       };
     } catch (error: unknown) {
-      console.log(error)
       return {
         body: (error as Error).message,
         statusCode: 400,

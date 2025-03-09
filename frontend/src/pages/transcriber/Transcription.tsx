@@ -33,7 +33,6 @@ export const Transcriber: React.FC = () => {
     if (lastMessages[queue]) {
       setTranscriptionStarted(true);
       setTranscriptionText(null); // Limpa o texto atual
-      console.log(lastMessages[queue]);
       setIsTyping(true); // Ativa o efeito de digitação
 
       setTimeout(() => {

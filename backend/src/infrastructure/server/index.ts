@@ -12,7 +12,6 @@ app.use(express.json());
 export async function startServer(): Promise<void> {
   try {
     const config = configService.getInstance().getConfig();
-    console.log("Configurações carregadas com sucesso:", config);
 
     const port = config.SERVER_PORT;
 

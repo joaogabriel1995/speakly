@@ -17,7 +17,7 @@ export class CreateManyLearningJourney {
         month: data.month,
         theory: data.theory,
         userId: userId,
-        learningJourneyId: learningSettingsId,
+        learningSettingsId: learningSettingsId,
       });
     });
 

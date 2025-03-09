@@ -16,7 +16,6 @@ export class PlanStudyController
   async handle(
     request: IRequest<LearningSettingsInputDto>,
   ): Promise<IResponse<{ message: string }>> {
-    console.log(request.body);
     const body = LearningSettingsInputSchema.parse(request.body);
 
     await this.planStudyUseCase.execute(body);

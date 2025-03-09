@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { Transcriber } from "../pages/transcriber/Transcription"
 import { Content } from "../components/layout/Content"
-import { PlanStudyPage } from "../pages/plan-study/PlanStudy"
+import { PlanStudyPage } from "../pages/planStudy/PlanStudy"
 import { MyStudyPlans } from "../pages/myStudyPlans/MyStudyPlans"
 import { pathRoutes } from "./paths"
 import { JourneyDetails } from "../pages/journeyDetails/JourneyDetails"

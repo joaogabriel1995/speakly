@@ -45,7 +45,6 @@ export class LearningJourneyRepoPrisma implements ILearningJourneysRepository {
       const {
         updatedAt, createdAt, id, ...rest
       } = learning
-      console.log(rest.learningSettingsId)
       return new LearningJourneyEntity(
         rest, id
       )
