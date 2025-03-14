@@ -9,7 +9,7 @@ import {
   ListLearningSettingsInputDto,
   ListLearningSettingsInputSchema,
 } from "../schemas/list-learning-settings-input.schema";
-import { ListLearningSettingsByUserUseCase } from "../useCases/learningSettings/list-learning-settings-by-user.use-case";
+import { ListLearningSettingsByUserUseCase } from "../useCases/learning-settings/list-learning-settings-by-user.use-case";
 
 export class ListLearningSettingsController
   implements IController<ListLearningSettingsInputDto, LearningSettingsEntity[]>

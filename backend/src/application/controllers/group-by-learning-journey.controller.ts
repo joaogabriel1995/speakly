@@ -5,7 +5,7 @@ import {
   IResponse,
 } from "../interfaces/adapters/controller.interface";
 import { GetLearningJourneyByIdInput } from "../schemas/group-by-learning-journey-by-id-input";
-import { GroupBySettingLearningJourneyByIdUseCase } from "../useCases/learningJourney/get-learning-journey.use-case";
+import { GroupBySettingLearningJourneyByIdUseCase } from "../useCases/learning-journey/get-learning-journey.use-case";
 
 export class GetLearningJourneyByIdController implements IController {
   constructor(

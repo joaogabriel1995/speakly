@@ -12,11 +12,11 @@ import { TranscriberController } from "../../application/controllers/transcriber
 import { PlanStudyUseCase } from "../../application/useCases/plan-study/study-plan.use-case";
 import { PlanStudyController } from "../../application/controllers/plan-study.controller";
 import { ListLearningSettingsController } from "../../application/controllers/list-learning-settings.controller";
-import { ListLearningSettingsByUserUseCase } from "../../application/useCases/learningSettings/list-learning-settings-by-user.use-case";
+import { ListLearningSettingsByUserUseCase } from "../../application/useCases/learning-settings/list-learning-settings-by-user.use-case";
 import { LearningSettingsRepoPrisma } from "../repository/learning-settings.prisma";
 import { ILearningSettingsRepository } from "../../domain/repository/learning-settings-repository.interface";
 import { ILearningJourneysRepository } from "../../domain/repository/learning-journey-repository.interface";
-import { GroupBySettingLearningJourneyByIdUseCase } from "../../application/useCases/learningJourney/get-learning-journey.use-case";
+import { GroupBySettingLearningJourneyByIdUseCase } from "../../application/useCases/learning-journey/get-learning-journey.use-case";
 import { GetLearningJourneyByIdController } from "../../application/controllers/group-by-learning-journey.controller";
 import { LearningJourneyRepoPrisma } from "../repository/learning-journey.prisma";
 

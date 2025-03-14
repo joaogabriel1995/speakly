@@ -10,8 +10,8 @@ import {
   PlanStudyOutputSchema,
 } from "../../schemas/processing-plan-study-output.schema";
 import { LearningJourneyInput } from "../../schemas/learning-jorney-input.schema";
-import { CreateManyLearningJourney } from "../plan-study/create-learning-journey.use-case";
-import { CreateLearningSettingsUseCase } from "../learningSettings/create-learning-settings.use-case";
+import { CreateManyLearningJourney } from "../learning-journey/create-learning-journey.use-case";
+import { CreateLearningSettingsUseCase } from "../learning-settings/create-learning-settings.use-case";
 
 export class ProcessPlanMessagesUseCase<TMessage> {
   constructor(
@@ -25,6 +25,7 @@ export class ProcessPlanMessagesUseCase<TMessage> {
     const data = extractContent(message) as PlanEntryDto;
 
     data.settings.userId = data.userId;
+    console.log(message)
 
     try {
       const planStudyData = PlanStudyOutputSchema.parse({
