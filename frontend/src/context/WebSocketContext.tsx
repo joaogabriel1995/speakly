@@ -28,6 +28,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     };
 
     websocket.onmessage = (event) => {
+      console.log("aqui")
       const data = JSON.parse(event.data);
 
       if (data.queue && data.content) {
