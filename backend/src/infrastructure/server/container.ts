@@ -19,6 +19,8 @@ import { ILearningJourneysRepository } from "../../domain/repository/learning-jo
 import { GroupBySettingLearningJourneyByIdUseCase } from "../../application/useCases/learning-journey/get-learning-journey.use-case";
 import { GetLearningJourneyByIdController } from "../../application/controllers/group-by-learning-journey.controller";
 import { LearningJourneyRepoPrisma } from "../repository/learning-journey.prisma";
+import { CreateDetailedLearningPlanController } from "../../application/controllers/create-detail-learning-plan-controller";
+import { CreateDetailedLearningPlanUseCase } from "../../application/useCases/learning-detail/create-detailed-learning-plan.use-case";
 
 export class Container {
   private static _instance: Container;
@@ -42,6 +44,10 @@ export class Container {
   private _learningJourneysRepository: ILearningJourneysRepository;
   private _getLearningJourneyByIdUseCase: GroupBySettingLearningJourneyByIdUseCase;
   private _getLearningJourneyByIdController: GetLearningJourneyByIdController;
+
+
+  private _createDetailedLearningPlanUseCase: CreateDetailedLearningPlanUseCase
+  private _createDetailedLearningPlanController: CreateDetailedLearningPlanController
 
   private constructor() {
     this._prismaClient = new PrismaClient();
@@ -97,6 +103,9 @@ export class Container {
       );
     this._getLearningJourneyByIdController =
       new GetLearningJourneyByIdController(this._getLearningJourneyByIdUseCase);
+
+    this._createDetailedLearningPlanUseCase = new CreateDetailedLearningPlanUseCase(this._learningSettingsRepository, this._rabbitMQBroker)
+    this._createDetailedLearningPlanController = new CreateDetailedLearningPlanController(this._createDetailedLearningPlanUseCase)
   }
 
   public static getInstance(): Container {
@@ -125,9 +134,14 @@ export class Container {
     return this._planStudyController;
   }
 
+  public get createDetailedLearningPlanController(): CreateDetailedLearningPlanController {
+    return this._createDetailedLearningPlanController;
+  }
+
   public get getLearningJourneyByIdController(): GetLearningJourneyByIdController {
     return this._getLearningJourneyByIdController;
   }
+
 
   public async dispose(): Promise<void> {
     await this._prismaClient.$disconnect();
