@@ -3,7 +3,6 @@ import { z } from "zod";
 import { IMessageBroker } from "../../../infrastructure/messaging/message-broker";
 import {
   extractContent,
-  getAttempts,
   handleMessageError,
 } from "../../../infrastructure/messaging/message-utils";
 
@@ -38,6 +37,7 @@ export class ProcessTranscriptionMessagesUseCase<TMessage> {
           path: `/transcription`,
         });
       }
+      return
     } catch (error) {
       console.error("Erro de validação:", error);
       await this.onError(error as Error, message);
