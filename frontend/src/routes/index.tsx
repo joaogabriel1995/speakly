@@ -4,7 +4,7 @@ import { Content } from "../components/layout/Content"
 import { PlanStudyPage } from "../pages/planStudy/PlanStudy"
 import { MyStudyPlans } from "../pages/myStudyPlans/MyStudyPlans"
 import { pathRoutes } from "./paths"
-import { JourneyDetails } from "../pages/journeyDetails/JourneyDetails"
+import { JourneyDetails } from "../pages/learningJourney/LearningJourney"
 
 
 

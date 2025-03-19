@@ -17,7 +17,8 @@ import {
   useTheme,
   IconButton,
   Stack,
-  Tooltip
+  Tooltip,
+  Button
 } from '@mui/material';
 import { useParams } from "react-router-dom";
 import { learningJourneyServices, ListFromSettingsResponse } from '../../services/learning-journey.service';
@@ -66,6 +67,11 @@ export const JourneyDetails = () => {
       return newSet;
     });
   };
+
+  const handleClickButton = (id: string, objective: string, activity: string, theory: string ) => {
+    console.log(id,objective, activity, theory, learningJourneyId)
+  }
+
 
   // Agrupar dados por mês
   const groupByMonth = () => {
@@ -178,6 +184,8 @@ export const JourneyDetails = () => {
                     <TableCell width="25%">Objetivo</TableCell>
                     <TableCell width="30%">Atividade</TableCell>
                     <TableCell width="30%">Teoria</TableCell>
+                    <TableCell width="30%">Options</TableCell>
+
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -207,6 +215,11 @@ export const JourneyDetails = () => {
                         <Box display="flex" alignItems="flex-start">
                           <DescriptionIcon fontSize="small" color="primary" sx={{ mt: 0.5, mr: 1, opacity: 0.7 }} />
                           <Typography variant="body2">{item.theory}</Typography>
+                        </Box>
+                      </TableCell>
+                      <TableCell>
+                        <Box display="flex" alignItems="flex-start">
+                          <Button onClick={() => handleClickButton(item.objective, item.activity, item.theory)}> Gerar Plano </Button>
                         </Box>
                       </TableCell>
                     </TableRow>
