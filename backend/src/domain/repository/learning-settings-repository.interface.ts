@@ -5,4 +5,5 @@ export interface ILearningSettingsRepository {
     learningSettings: LearningSettingsEntity,
   ): Promise<LearningSettingsEntity>;
   findManyByUserId(userId: string): Promise<LearningSettingsEntity[]>;
+  findOneById(id: string): Promise<LearningSettingsEntity | null>
 }
