@@ -29,10 +29,8 @@ export const Content: React.FC<IContentProps> = ({ children, title }) => {
       }),
     }}
     >
-      {/* Alerta (caso exista) */}
       <AlertComponent />
 
-      {/* Título - Fixed at top */}
       <Box
         sx={{
           padding: theme.spacing(2),
