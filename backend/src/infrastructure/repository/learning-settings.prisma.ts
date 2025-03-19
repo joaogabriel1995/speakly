@@ -51,4 +51,14 @@ export class LearningSettingsRepoPrisma implements ILearningSettingsRepository {
 
     return settingsEntities;
   }
+  async findOneById(id: string): Promise<LearningSettingsEntity | null> {
+    const learningSetting = await this.prisma.learningSettings.findUnique({
+      where: {
+        id
+      }
+    })
+    if (!learningSetting) return null
+    const { updatedAt, createdAt, ...rest } = learningSetting
+    return new LearningSettingsEntity(rest)
+  }
 }
