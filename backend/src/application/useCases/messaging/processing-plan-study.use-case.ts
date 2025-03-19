@@ -28,6 +28,7 @@ export class ProcessPlanMessagesUseCase<TMessage> {
     console.log(message)
 
     try {
+
       const planStudyData = PlanStudyOutputSchema.parse({
         plan: data.plan,
         userId: data.userId,
@@ -72,7 +73,7 @@ export class ProcessPlanMessagesUseCase<TMessage> {
         await this.messageBroker.ack(message);
       }
       await this.messageBroker.publish(
-        "agent-plan-study",
+        "learning_plan_response",
         extractContent(message),
         { headers: { attempts: attempts + 1 } },
       );
