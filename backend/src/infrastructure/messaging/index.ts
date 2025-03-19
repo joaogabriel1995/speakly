@@ -8,6 +8,7 @@ import { LearningSettingsRepoPrisma } from "../repository/learning-settings.pris
 import { configService } from "../services/config.service";
 import { RabbitMQBrokerAdvanced } from "./rabbitmq-broker";
 import { WebSocketBroker } from "./web-socket-server";
+import { ProcessDetailLearningMessagesUseCase } from "../../application/useCases/messaging/processing-detail-learning.use-case";
 
 export async function startConsumer(): Promise<void> {
   try {
@@ -35,13 +36,20 @@ export async function startConsumer(): Promise<void> {
     const createLearningSettingsUseCase = new CreateLearningSettingsUseCase(
       learningSettingsRepository,
     );
-    const studyUseCase = new ProcessPlanMessagesUseCase(
+    const learningJourney = new ProcessPlanMessagesUseCase(
       messageBroker,
       wsBroker,
       createManyLearningJourney,
       createLearningSettingsUseCase,
     );
-    await studyUseCase.execute("learning_plan_response");
+    const processDetailLearningMessagesUseCase =new  ProcessDetailLearningMessagesUseCase(messageBroker, wsBroker);
+
+
+
+
+    await learningJourney.execute("learning_plan_response");
+    await processDetailLearningMessagesUseCase.execute("weekly_detail_plan");
+
   } catch (error) {
     console.error("Error RabbitMQConsumer");
   }
