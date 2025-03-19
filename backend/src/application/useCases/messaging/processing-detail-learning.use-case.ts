@@ -22,7 +22,7 @@ export class ProcessDetailLearningMessagesUseCase<TMessage = WeeklyStudyPlanDeta
     const data = extractContent(actualMessage);
     console.log("data:", data);
 
-    const parseResult = WeeklyStudyPlanDetailWithContentSchema.safeParse(message);
+    const parseResult = WeeklyStudyPlanDetailWithContentSchema.safeParse(data);
     if (!parseResult.success) {
       console.error("Erro de validação:", parseResult.error);
       throw new Error("Dados inválidos recebidos");
