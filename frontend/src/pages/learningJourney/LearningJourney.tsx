@@ -30,9 +30,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PrintIcon from '@mui/icons-material/Print';
 import ShareIcon from '@mui/icons-material/Share';
 import DownloadIcon from '@mui/icons-material/Download';
+import { learningHubServices } from '../../services/learning-hub.service';
 
 export const JourneyDetails = () => {
-  const { learningJourneyId } = useParams();
+  const { learningSettingsId } = useParams();
   const [journey, setJourney] = useState<ListFromSettingsResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedMonths, setExpandedMonths] = useState<Set<number>>(new Set());
@@ -40,10 +41,10 @@ export const JourneyDetails = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!learningJourneyId) return;
+      if (!learningSettingsId) return;
       setLoading(true);
       try {
-        const data = await learningJourneyServices.listFromSettingId(learningJourneyId);
+        const data = await learningJourneyServices.listFromSettingId(learningSettingsId);
         setJourney(data);
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
@@ -52,7 +53,7 @@ export const JourneyDetails = () => {
       }
     };
     fetchData();
-  }, [learningJourneyId]);
+  }, [learningSettingsId]);
 
   const getMonthLabel = (month: number) => `Mês ${month}`;
 
@@ -68,8 +69,9 @@ export const JourneyDetails = () => {
     });
   };
 
-  const handleClickButton = (id: string, objective: string, activity: string, theory: string ) => {
-    console.log(id,objective, activity, theory, learningJourneyId)
+  const handleClickButton = async (id: string, objective: string, activity: string, theory: string) => {
+    console.log(id, objective, activity, theory)
+    await learningHubServices.create({ activities: activity, objective, settingId: learningSettingsId!, theory, learningDetailId: id })
   }
 
 
@@ -219,7 +221,7 @@ export const JourneyDetails = () => {
                       </TableCell>
                       <TableCell>
                         <Box display="flex" alignItems="flex-start">
-                          <Button onClick={() => handleClickButton(item.objective, item.activity, item.theory)}> Gerar Plano </Button>
+                          <Button onClick={() => handleClickButton(item.id, item.objective, item.activity, item.theory)}> Gerar Plano </Button>
                         </Box>
                       </TableCell>
                     </TableRow>
