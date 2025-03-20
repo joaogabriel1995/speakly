@@ -78,6 +78,7 @@ model LearningJourney {
   learningSettings   LearningSettings @relation(fields: [learningSettingsId], references: [id], onDelete: Cascade)
   createdAt          DateTime         @default(now()) @map("created_at")
   updatedAt          DateTime         @updatedAt @map("updated_at")
+  Task               Task[]
 
   @@index([userId, month, week])
   @@map("learning_journeys")
@@ -97,3 +98,47 @@ model LearningSettings {
 
   @@map("learning_settings")
 }
+
+enum TaskStatusEnum {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum SkillEnum {
+  SPEAKING
+  VOCABULARY
+  PRONUNCIATION
+  GRAMMAR
+  WRITING
+  READING
+  LISTENING
+}
+
+model Task {
+  id                String          @id @default(uuid())
+  task              String
+  resource          String
+  skill             SkillEnum
+  duration          Int
+  repetitions       Int
+  content           String?
+  status            TaskStatusEnum  @default(NOT_STARTED)
+  learningJourney   LearningJourney @relation(fields: [learningJourneyId], references: [id])
+  learningJourneyId String          @map("learning_journey_id")
+  day               Int             @map("day")
+
+  @@map("tasks")
+}
+
+// // Modelo para o conteúdo de ListeningToolOutputActivity
+// model ListeningToolOutputActivity {
+//   id            String  @id @default(uuid())
+//   content       String
+//   transcription String
+//   taskId        String? @unique // Relacionamento 1:1 opcional com Task
+//   task          Task?   @relation(fields: [taskId], references: [id])
+
+//   @@map("listening_tool_output_activities")
+// }
