@@ -1,22 +1,17 @@
 import { z } from "zod";
+import { SkillEnum } from "../../domain/entities/task.entity";
 
-const DailyContentSchema = z.object({
+const ListeningToolOutputActivitySchema = z.object({
   content: z.string(),
   transcription: z.string(), // Ajustado de number para string, pois seu JSON contém texto
 });
 const DailyActivitySchema = z.object({
   task: z.string(),
   resource: z.string(),
-  skill: z.enum(["listening",
-    "speaking",
-    "vocabulary",
-    "pronunciation",
-    "grammar",
-    "writing",
-    "reading",]),
+  skill: z.nativeEnum(SkillEnum),
   duration: z.number().min(1),
   repetitions: z.number().min(1),
-  content: z.union([DailyContentSchema, z.null()]).optional(), // Ajuste conforme o schema de content
+  content: z.union([ListeningToolOutputActivitySchema, z.null()]), // Ajuste conforme o schema de content
 });
 
 // Schema para um plano diário
@@ -51,7 +46,7 @@ export type DailyPlanWithContent = z.infer<typeof DailyPlanWithContentSchema>;
 export type WeeklyStudyPlanDetailWithContent = z.infer<typeof WeeklyStudyPlanDetailWithContentSchema>;
 
 export {
-  DailyContentSchema,
+  ListeningToolOutputActivitySchema,
   DailyActivitySchema,
   DailyActivityWithContentSchema,
   DailyPlanWithContentSchema,
