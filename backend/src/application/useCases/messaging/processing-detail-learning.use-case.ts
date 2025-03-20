@@ -5,7 +5,8 @@ import {
   getAttempts,
   handleMessageError,
 } from "../../../infrastructure/messaging/message-utils";
-import { WeeklyStudyPlanDetailWithContentSchema, WeeklyStudyPlanDetailWithContent, DailyContentSchema, DailyActivitySchema } from "../../schemas/process-detail-learning-messages-schema";
+import { WeeklyStudyPlanDetailWithContentSchema, WeeklyStudyPlanDetailWithContent } from "../../schemas/process-detail-learning-messages-schema";
+import { CreateManyTaskUseCase } from "../task/create-many-task.use-case";
 
 
 
@@ -13,6 +14,7 @@ export class ProcessDetailLearningMessagesUseCase<TMessage = WeeklyStudyPlanDeta
   constructor(
     private readonly messageBroker: IMessageBroker<TMessage>,
     private readonly wsBroker: IMessageBroker<TMessage>,
+    private readonly createOneTaskUseCase: CreateManyTaskUseCase
   ) { }
 
   async onMessage(message: any) {
@@ -27,6 +29,14 @@ export class ProcessDetailLearningMessagesUseCase<TMessage = WeeklyStudyPlanDeta
       console.error("Erro de validação:", parseResult.error);
       throw new Error("Dados inválidos recebidos");
     }
+    const learningJourneyId = parseResult.data.learning_journey_id;
+    const weeklyPlan = parseResult.data.weekly_plan
+
+    const result = weeklyPlan.map(async (data) => {
+      const { day, activities } = data;
+      await this.createOneTaskUseCase.execute(activities, learningJourneyId, day);
+    })
+    await Promise.all(result)
 
     if (this.messageBroker.ack) {
       await this.messageBroker.ack(message);
