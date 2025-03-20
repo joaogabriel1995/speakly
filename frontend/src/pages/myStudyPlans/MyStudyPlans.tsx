@@ -64,7 +64,7 @@ export const MyStudyPlans = () => {
               daysWeek={learningSetting.daysWeek}
               hourDay={learningSetting.hourDay}
               ctaText="Ver detalhes"
-              onClick={() => handleClick(navigate, pathRoutes.STUDY_PLAN_DETAILS.replace(":learningJourneyId", learningSetting.id))}
+              onClick={() => handleClick(navigate, pathRoutes.STUDY_PLAN_DETAILS.replace(":learningSettingsId", learningSetting.id))}
               progress={50} // Exemplo de progresso, você pode calcular isso dinamicamente
             />
           ))
