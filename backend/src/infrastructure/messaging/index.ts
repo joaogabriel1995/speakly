@@ -9,6 +9,8 @@ import { configService } from "../services/config.service";
 import { RabbitMQBrokerAdvanced } from "./rabbitmq-broker";
 import { WebSocketBroker } from "./web-socket-server";
 import { ProcessDetailLearningMessagesUseCase } from "../../application/useCases/messaging/processing-detail-learning.use-case";
+import { TaskRepoPrisma } from "../repository/task.prisma";
+import { CreateManyTaskUseCase } from "../../application/useCases/task/create-many-task.use-case";
 
 export async function startConsumer(): Promise<void> {
   try {
@@ -42,7 +44,10 @@ export async function startConsumer(): Promise<void> {
       createManyLearningJourney,
       createLearningSettingsUseCase,
     );
-    const processDetailLearningMessagesUseCase =new  ProcessDetailLearningMessagesUseCase(messageBroker, wsBroker);
+
+    const taskRepo = new TaskRepoPrisma(prisma)
+    const createManyTaskUseCase = new CreateManyTaskUseCase(taskRepo)
+    const processDetailLearningMessagesUseCase = new ProcessDetailLearningMessagesUseCase(messageBroker, wsBroker, createManyTaskUseCase);
 
 
 
