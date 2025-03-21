@@ -20,7 +20,7 @@ import {
   Tooltip,
   Button
 } from '@mui/material';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { learningJourneyServices, ListFromSettingsResponse } from '../../services/learning-journey.service';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -54,6 +54,13 @@ export const JourneyDetails = () => {
     };
     fetchData();
   }, [learningSettingsId]);
+
+  // dentro do componente JourneyDetails
+  const navigate = useNavigate();
+
+  const goToWeeklyTasks = (detailId: string) => {
+    navigate(`/learning_journey/${learningSettingsId}/tasks/${detailId}`);
+  };
 
   const getMonthLabel = (month: number) => `Mês ${month}`;
 
@@ -192,7 +199,12 @@ export const JourneyDetails = () => {
                 </TableHead>
                 <TableBody>
                   {monthGroups.get(month).map((item: ListFromSettingsResponse) => (
-                    <TableRow key={item.id} hover>
+                    <TableRow
+                      key={item.id}
+                      hover
+                      sx={{ cursor: 'pointer' }}
+                      onClick={() => goToWeeklyTasks(item.id)}
+                    >
                       <TableCell>
                         <Chip
                           label={`Semana ${item.week}`}
