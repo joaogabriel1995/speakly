@@ -21,6 +21,12 @@ import { GetLearningJourneyByIdController } from "../../application/controllers/
 import { LearningJourneyRepoPrisma } from "../repository/learning-journey.prisma";
 import { CreateDetailedLearningPlanController } from "../../application/controllers/create-detail-learning-plan-controller";
 import { CreateDetailedLearningPlanUseCase } from "../../application/useCases/learning-detail/create-detailed-learning-plan.use-case";
+import { TaskRepoPrisma } from "../repository/task.prisma";
+import { FindManyTasksByJourneyUseCase } from "../../application/useCases/task/find-many-tasks-by-journey.use-case";
+import { FindManyTasksByJourneyController } from "../../application/controllers/find-many-tasks-by-journey.controller";
+import { ListeningLeasonRepoPrisma } from "../repository/listening-leason.prisma";
+import { GetListeningLeasonByIdUseCase } from "../../application/useCases/listening-leason/find-many-listening-leason-by-id.use-case";
+import { GetListeningLeasonByIdController } from "../../application/controllers/find-many-listening-leason-by-id.controller";
 
 export class Container {
   private static _instance: Container;
@@ -40,12 +46,16 @@ export class Container {
   private _listLearningSettingsByUser: ListLearningSettingsByUserUseCase;
   private _listLearningSettingsController: ListLearningSettingsController;
   private _learningSettingsRepository: ILearningSettingsRepository;
+  private _findManyTasksByJourneyUseCase: FindManyTasksByJourneyUseCase;
+  private _findManyTasksByJourneyController: FindManyTasksByJourneyController;
+  private _taskRepository: TaskRepoPrisma
+  private _listeningLeasonRepoPrisma: ListeningLeasonRepoPrisma
 
   private _learningJourneysRepository: ILearningJourneysRepository;
   private _getLearningJourneyByIdUseCase: GroupBySettingLearningJourneyByIdUseCase;
   private _getLearningJourneyByIdController: GetLearningJourneyByIdController;
-
-
+  private _getListeningLeasonByIdUseCase: GetListeningLeasonByIdUseCase
+  private _getListeningLeasonByIdController: GetListeningLeasonByIdController
   private _createDetailedLearningPlanUseCase: CreateDetailedLearningPlanUseCase
   private _createDetailedLearningPlanController: CreateDetailedLearningPlanController
 
@@ -104,6 +114,15 @@ export class Container {
     this._getLearningJourneyByIdController =
       new GetLearningJourneyByIdController(this._getLearningJourneyByIdUseCase);
 
+    this._listeningLeasonRepoPrisma = new ListeningLeasonRepoPrisma(this._prismaClient)
+    this._getListeningLeasonByIdUseCase = new GetListeningLeasonByIdUseCase(this._listeningLeasonRepoPrisma)
+    this._getListeningLeasonByIdController = new GetListeningLeasonByIdController(this._getListeningLeasonByIdUseCase)
+
+    this._taskRepository = new TaskRepoPrisma(this._prismaClient);
+    this._findManyTasksByJourneyUseCase = new FindManyTasksByJourneyUseCase(this._taskRepository);
+    this._findManyTasksByJourneyController = new FindManyTasksByJourneyController(this._findManyTasksByJourneyUseCase);
+
+
     this._createDetailedLearningPlanUseCase = new CreateDetailedLearningPlanUseCase(this._learningSettingsRepository, this._rabbitMQBroker)
     this._createDetailedLearningPlanController = new CreateDetailedLearningPlanController(this._createDetailedLearningPlanUseCase)
   }
@@ -142,6 +161,12 @@ export class Container {
     return this._getLearningJourneyByIdController;
   }
 
+  public get findManyTasksByJourneyController(): FindManyTasksByJourneyController {
+    return this._findManyTasksByJourneyController;
+  }
+  public get getListeningLeasonByIdController(): GetListeningLeasonByIdController {
+    return this._getListeningLeasonByIdController;
+  }
 
   public async dispose(): Promise<void> {
     await this._prismaClient.$disconnect();
