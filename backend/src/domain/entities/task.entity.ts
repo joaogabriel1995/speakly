@@ -8,6 +8,7 @@ export enum TaskStatusEnum {
   CANCELLED = 'CANCELLED',
 }
 
+
 export enum SkillEnum {
   SPEAKING = "SPEAKING",
   VOCABULARY = "VOCABULARY",
@@ -21,6 +22,7 @@ export enum SkillEnum {
 interface IListeningToolOutputActivity {
   content: string,
   transcription: string, // Ajustado de number para string, pois seu JSON contém texto
+  url: string
 }
 
 
@@ -30,7 +32,7 @@ interface TaskEntityProps {
   skill: SkillEnum,
   duration: number,
   repetitions: number,
-  content: IListeningToolOutputActivity | null,
+  // content: IListeningToolOutputActivity | null,
   status: TaskStatusEnum,
   learningJourneyId: string,
   day: number,
@@ -44,7 +46,7 @@ export class TaskEntity {
   private skill: SkillEnum;
   private duration: number;
   private repetitions: number;
-  private content: IListeningToolOutputActivity | null;
+  // private content: IListeningToolOutputActivity | null;
   private status: TaskStatusEnum;
   private learningJourneyId: string;
   private day: number;
@@ -59,7 +61,7 @@ export class TaskEntity {
     this.skill = props.skill;
     this.duration = props.duration;
     this.repetitions = props.repetitions;
-    this.content = props.content;
+    // this.content = props.content;
     this.status = props.status;
     this.learningJourneyId = props.learningJourneyId;
     this.day = props.day;
@@ -82,9 +84,9 @@ export class TaskEntity {
   getRepetitions(): number {
     return this.repetitions;
   }
-  getContent(): IListeningToolOutputActivity | null {
-    return this.content;
-  }
+  // getContent(): IListeningToolOutputActivity | null {
+  //   return this.content;
+  // }
   getStatus(): TaskStatusEnum {
     return this.status;
   }
