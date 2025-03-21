@@ -16,7 +16,7 @@ export class CreateManyTaskUseCase {
         repetitions: dailyActivity.repetitions,
         resource: dailyActivity.resource,
         skill: dailyActivity.skill,
-        content: dailyActivity.content,
+        // content: dailyActivity.content,
         learningJourneyId: learningJourneyId,
         status: TaskStatusEnum.NOT_STARTED,
         day: day,
