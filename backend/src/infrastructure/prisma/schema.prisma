@@ -117,28 +117,33 @@ enum SkillEnum {
 }
 
 model Task {
-  id                String          @id @default(uuid())
+  id                String            @id @default(uuid())
   task              String
   resource          String
   skill             SkillEnum
   duration          Int
   repetitions       Int
   content           String?
-  status            TaskStatusEnum  @default(NOT_STARTED)
-  learningJourney   LearningJourney @relation(fields: [learningJourneyId], references: [id])
-  learningJourneyId String          @map("learning_journey_id")
-  day               Int             @map("day")
+  status            TaskStatusEnum    @default(NOT_STARTED)
+  learningJourney   LearningJourney   @relation(fields: [learningJourneyId], references: [id])
+  learningJourneyId String            @map("learning_journey_id")
+  day               Int               @map("day")
+  // createdAt         DateTime        @default(now()) @map("created_at")
+  // updatedAt         DateTime        @updatedAt @map("updated_at")
+  ListeningLeason   ListeningLeason[]
 
   @@map("tasks")
 }
 
-// // Modelo para o conteúdo de ListeningToolOutputActivity
-// model ListeningToolOutputActivity {
-//   id            String  @id @default(uuid())
-//   content       String
-//   transcription String
-//   taskId        String? @unique // Relacionamento 1:1 opcional com Task
-//   task          Task?   @relation(fields: [taskId], references: [id])
+model ListeningLeason {
+  id            String   @id @default(uuid()) @map("id")
+  content       String   @map("content")
+  transcription String   @map("transcription")
+  url           String   @map("url")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  task          Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId        String   @map("task_id")
 
-//   @@map("listening_tool_output_activities")
-// }
+  @@map("listening_leasons")
+}
