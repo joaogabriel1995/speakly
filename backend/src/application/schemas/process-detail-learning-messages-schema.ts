@@ -4,6 +4,7 @@ import { SkillEnum } from "../../domain/entities/task.entity";
 const ListeningToolOutputActivitySchema = z.object({
   content: z.string(),
   transcription: z.string(), // Ajustado de number para string, pois seu JSON contém texto
+  url: z.string(),
 });
 const DailyActivitySchema = z.object({
   task: z.string(),
