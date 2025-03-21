@@ -11,6 +11,8 @@ import { WebSocketBroker } from "./web-socket-server";
 import { ProcessDetailLearningMessagesUseCase } from "../../application/useCases/messaging/processing-detail-learning.use-case";
 import { TaskRepoPrisma } from "../repository/task.prisma";
 import { CreateManyTaskUseCase } from "../../application/useCases/task/create-many-task.use-case";
+import { CreateListeningLeasonUseCase } from "../../application/useCases/listening-leason/create-listening-leason.use-case";
+import { ListeningLeasonRepoPrisma } from "../repository/listening-leason.prisma";
 
 export async function startConsumer(): Promise<void> {
   try {
@@ -45,9 +47,12 @@ export async function startConsumer(): Promise<void> {
       createLearningSettingsUseCase,
     );
 
+
     const taskRepo = new TaskRepoPrisma(prisma)
     const createManyTaskUseCase = new CreateManyTaskUseCase(taskRepo)
-    const processDetailLearningMessagesUseCase = new ProcessDetailLearningMessagesUseCase(messageBroker, wsBroker, createManyTaskUseCase);
+    const listeningLeasonRepo = new ListeningLeasonRepoPrisma(prisma)
+    const createListeningLeasonUseCase = new CreateListeningLeasonUseCase(listeningLeasonRepo)
+    const processDetailLearningMessagesUseCase = new ProcessDetailLearningMessagesUseCase(messageBroker, wsBroker, createManyTaskUseCase, createListeningLeasonUseCase);
 
 
 
